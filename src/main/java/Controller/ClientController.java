@@ -19,7 +19,12 @@ public class ClientController {
 
     }
 
-    Boolean newCLient(){
+    Boolean newCLient(
+            @PathVariable String user,
+            @PathVariable String password,
+            @PathVariable String email,
+            @PathVariable int telefone){
+
 
     }
 }

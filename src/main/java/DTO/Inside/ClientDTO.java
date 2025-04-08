@@ -1,8 +1,7 @@
 package DTO.Inside;
 
-import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collation = "clients")
+@Entity
 public class ClientDTO {
 
     private String nameClient;

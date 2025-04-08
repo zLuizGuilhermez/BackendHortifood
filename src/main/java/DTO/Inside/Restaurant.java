@@ -1,8 +1,7 @@
 package DTO.Inside;
+import javax.persistence.*;
 
-import org.springframework.data.mongodb.core.mapping.Document;
-
-@Document
+@Entity
 public class Restaurant {
     private String nameRestaurant;
     private String phoneRestaurant;
