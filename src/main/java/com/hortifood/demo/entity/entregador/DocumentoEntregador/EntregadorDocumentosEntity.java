@@ -1,10 +1,12 @@
-package Model.Entregador.DocumentoEntregador;
-import Model.Entregador.Entregador.Entregador;
+package com.hortifood.demo.entity.entregador.DocumentoEntregador;
+import com.hortifood.demo.entity.entregador.Entregador.Entregador;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
 
-public class EntregadorDocumentos {
+@Entity
+public class EntregadorDocumentosEntity {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;

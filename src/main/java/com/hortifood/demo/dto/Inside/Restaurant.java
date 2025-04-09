@@ -1,5 +1,6 @@
-package DTO.Inside;
-import javax.persistence.*;
+package com.hortifood.demo.dto.Inside;
+import jakarta.persistence.*;
+
 
 @Entity
 public class Restaurant {

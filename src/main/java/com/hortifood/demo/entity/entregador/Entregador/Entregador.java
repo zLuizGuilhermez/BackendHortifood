@@ -1,10 +1,13 @@
-package Model.Entregador.Entregador;
+package com.hortifood.demo.entity.entregador.Entregador;
+import com.hortifood.demo.entity.entregador.DocumentoEntregador.EntregadorDocumentosEntity;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 @Entity
-@Table(name = "entregador")
+@Table(name = "Entregador")
 public class Entregador {
 
     @Id
@@ -22,9 +25,10 @@ public class Entregador {
 
     @OneToOne()
     @JoinColumn(name = "idEnderecoEntregador")
-    private EnderecoEntregador enderecoEntregador;
+    private EnderecoEntregadorEntity enderecoEntregadorEntity;
 
-    @ManyToOne
+    @OneToMany(mappedBy = "entregador")
+    private ArrayList<EntregadorDocumentosEntity> documentos;
 
     public Entregador() {
     }

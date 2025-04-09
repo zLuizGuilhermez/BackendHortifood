@@ -1,10 +1,10 @@
-package HortiFood.com.demo;
+package com.hortifood.demo;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class HortiFoodApplicationTests {
+class hortiFoodApplicationTests {
 
 	@Test
 	void contextLoads() {

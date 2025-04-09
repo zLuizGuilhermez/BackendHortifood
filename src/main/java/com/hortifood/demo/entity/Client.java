@@ -1,6 +1,7 @@
-package Model;
+package com.hortifood.demo.entity;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+
 
 @Entity
 @Table(name = "cliente")

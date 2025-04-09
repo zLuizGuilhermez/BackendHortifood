@@ -1,7 +1,5 @@
-package DTO.Inside;
+package com.hortifood.demo.dto.Inside;
 
-
-@Entity
 public class ClientDTO {
 
     private String nameClient;
