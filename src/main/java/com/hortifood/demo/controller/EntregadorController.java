@@ -14,12 +14,13 @@ public class EntregadorController {
     EntregadorService entregadorService;
 
     @GetMapping("/criarentregador")
-    void criarCliente(@RequestBody EntregadorDTO entregadorDTO){
-        entregadorService.criarEntregadorFinal(entregadorService.criarEntregadorParcial(entregadorDTO.getNomeEntregador(), entregadorDTO.getCpfEntregador(), entregadorDTO.getEmail(), entregadorDTO.getDataNascimento(), entregadorDTO.getTotalEntregas(),
-                entregadorService.criarEndereco(entregadorDTO.getEstado(), entregadorDTO.getCidade(), entregadorDTO.getBairro(), entregadorDTO.getLogradouro(),
-                        entregadorDTO.getCasa(), entregadorDTO.getCep())), entregadorDTO.getTipoDocumento(), entregadorDTO.getDataEnvio(),entregadorDTO.getStatus())));
-    }
+    void criarEntregador(@RequestBody EntregadorDTO entregadorDTO) {
+        entregadorService.criarEntregadorFinal(entregadorService.criarEntregadorParcial(entregadorDTO.getNomeEntregador(), entregadorDTO.getCpfEntregador(), entregadorDTO.getEmail(),
+                entregadorDTO.getDataNascimento()), entregadorService.criarEndereco(entregadorDTO.getEstado(),
+                entregadorDTO.getCidade(), entregadorDTO.getBairro(), entregadorDTO.getLogradouro(), entregadorDTO.getCasa(),
+                entregadorDTO.getCep()), entregadorService.criarDoc(entregadorDTO.getTipoDocumento(), entregadorDTO.getDataEnvio()));
 
+    }
     @DeleteMapping("/deletarentregador")
     void deletarEntregador(@RequestBody EntregadorDTO entregadorDTO){
         entregadorService.removerEntregadorPorCpf(entregadorDTO.getCpfEntregador());

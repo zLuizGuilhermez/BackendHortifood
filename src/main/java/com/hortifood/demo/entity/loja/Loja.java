@@ -32,7 +32,7 @@ public class Loja {
     @OneToOne(cascade = CascadeType.ALL)
     private EnderecoLoja enderecoLoja;
 
-    @OneToOne(mappedBy = "loja", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "loja", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private CardapioLoja cardapio;
 
     public Loja() {

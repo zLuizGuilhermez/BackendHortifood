@@ -1,6 +1,7 @@
 package com.hortifood.demo.service;
 
 import com.hortifood.demo.entity.entregador.DocumentoEntregador.EntregadorDocumentosEntity;
+import com.hortifood.demo.entity.entregador.DocumentoEntregador.TipoDocumento;
 import com.hortifood.demo.entity.entregador.Entregador.Entregador;
 import com.hortifood.demo.entity.entregador.Entregador.EnderecoEntregadorEntity;
 import com.hortifood.demo.repository.EntregadorDocumentoRepository;
@@ -40,8 +41,6 @@ public class EntregadorService {
         enderecoEntregadorEntity.setEntregador(entregador);
         entregadorDocumentosEntity.setEntregador(entregador);
 
-
-
         entregadorRepository.save(entregador);
         enderecoRepository.save(enderecoEntregadorEntity);
         entregadorDocumentoRepository.save(entregadorDocumentosEntity);
@@ -64,6 +63,14 @@ public class EntregadorService {
         endereco.setCasa(casa);
         endereco.setCep(cep);
         return endereco;
+    }
+
+    public EntregadorDocumentosEntity criarDoc(TipoDocumento tipoDocumento, LocalDate data){
+        EntregadorDocumentosEntity entregadorDocumentosEntity = new EntregadorDocumentosEntity();
+        entregadorDocumentosEntity.setTipoDocumento(tipoDocumento);
+        entregadorDocumentosEntity.setDataEnvio(data);
+
+        return entregadorDocumentosEntity;
     }
 
     public void removerEntregadorPorCpf(String cpf) {

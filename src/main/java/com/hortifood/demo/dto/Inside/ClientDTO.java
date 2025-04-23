@@ -12,11 +12,21 @@ public class ClientDTO {
     private String logradouro;
     private String casa;
     private String cep;
+    private String cpf;
 
     public ClientDTO() {}
 
     public String getNome() {
         return nome;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public String getCpf() {
+        return cpf;
+
     }
 
     public void setNome(String nome) {

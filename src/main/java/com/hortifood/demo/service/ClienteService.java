@@ -18,13 +18,27 @@ public class ClienteService {
     @Autowired
     ClienteEnderecoRepository clienteEnderecoRepository;
 
-    public Cliente criarClientePart(String nome, String telefone, String email, String senha) {
+    public Cliente buscarCliente(String cpf){
+        Optional<Cliente> cliente = clientRepository.findFirstByCpf(cpf);
+
+        if (cliente.isPresent()){
+            Cliente cliente1 = cliente.get();
+
+            return cliente1;
+        }
+
+        return null;
+    }
+
+    public Cliente criarClientePart(String nome, String telefone, String email, String senha, String cpf) {
         Cliente cliente = new Cliente();
 
         cliente.setNome(nome);
         cliente.setTelefone(telefone);
         cliente.setEmailCliente(email);
         cliente.setSenhaCliente(senha);
+        cliente.setCpf(cpf);
+
 
 
 

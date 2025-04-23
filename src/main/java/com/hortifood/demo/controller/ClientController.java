@@ -1,5 +1,6 @@
 package com.hortifood.demo.controller;
 import com.hortifood.demo.dto.Inside.ClientDTO;
+import com.hortifood.demo.entity.cliente.Cliente;
 import com.hortifood.demo.service.ClienteService;
 import com.mysql.cj.xdevapi.Client;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,28 +16,25 @@ public class ClientController {
 
 
     @GetMapping("/acharcliente")
-    Boolean acharCliente(
-           @PathVariable String user,
-           @PathVariable String password
-   ){
-    return null;
+    public Cliente buscarCliente(@RequestBody ClientDTO clientDto){
+        return clienteService.buscarCliente(clientDto.getCpf());
    }
 
     @PostMapping("/criarcliente")
-    Boolean criarCliente(@RequestBody ClientDTO clientDto){
+    public Boolean criarCliente(@RequestBody ClientDTO clientDto){
        clienteService.criarClienteFinal(clienteService.criarClientePart(clientDto.getNome(), clientDto.getTelefone(),
-               clientDto.getEmailCliente(), clientDto.getSenhaCliente()),
+               clientDto.getEmailCliente(), clientDto.getSenhaCliente(),clientDto.getCpf()),
                clienteService.criarClienteEndereco(clientDto.getEstado(), clientDto.getCidade(),clientDto.getBairro(),
                        clientDto.getLogradouro(),clientDto.getCasa(),clientDto.getCep()));
        return true;
     }
 
     @DeleteMapping("/deletarcliente")
-    void deletarCliente(@RequestBody ClientDTO clientDTO){
+    public void deletarCliente(@RequestBody ClientDTO clientDTO){
         clienteService.removerCliente(clientDTO.getEmailCliente(),clientDTO.getSenhaCliente());
     }
     @PutMapping("/alterarcliente")
-    void atualizarCliente(@RequestBody ClientDTO clientDTO){
+    public void atualizarCliente(@RequestBody ClientDTO clientDTO){
         clienteService.alterarInfoCliente(clientDTO.getEmailCliente(),clientDTO.getSenhaCliente(),clientDTO);
     }
 }

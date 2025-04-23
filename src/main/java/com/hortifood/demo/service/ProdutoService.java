@@ -39,10 +39,12 @@ public class ProdutoService {
 
     public Produto buscarProdutoPorNome(String nome){
         Optional<Produto> produto = produtoRepository.findFirstByNome(nome);
+        if(produto.isPresent()) {
+            Produto produto1 = produto.get();
 
-        Produto produto1 = produto.get();
-
-        return produto1;
+            return produto1;
+        }
+        return null;
     }
 
     public void removerProduto(Long id){

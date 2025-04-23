@@ -24,9 +24,10 @@ public class LojaController {
     }
 
     @PostMapping("/newLoja")
-    Boolean newCLient(@RequestBody LojaDTO lojaDTO) {
-        lojaService.criarLojaCompleta(lojaService.criarLoja(lojaDTO.getNomeLoja(), lojaDTO.getTelefoneLoja(), lojaDTO.getEmailLoja(), lojaDTO.getSenhaLoja(), lojaDTO.getCnpjLoja()), lojaService.criarEnderecoLoja(lojaDTO.getCep(), lojaDTO.getRua(), lojaDTO.getNumero(), lojaDTO.getComplemento(), lojaDTO.getBairro(), lojaDTO.getCidade(), lojaDTO.getEstado()));
-        return true;
+    public Loja newLoja(@RequestBody LojaDTO lojaDTO) {
+        return lojaService.criarLojaCompleta(lojaService.criarLoja(lojaDTO.getNomeLoja(), lojaDTO.getTelefoneLoja(), lojaDTO.getEmailLoja(), lojaDTO.getSenhaLoja(), lojaDTO.getCnpjLoja()), lojaService.criarEnderecoLoja(lojaDTO.getCep(),
+                            lojaDTO.getRua(), lojaDTO.getNumero(), lojaDTO.getComplemento(), lojaDTO.getBairro(), lojaDTO.getCidade(), lojaDTO.getEstado()), lojaService.criarCardapio());
+
     }
 
     @DeleteMapping("/deleteloja")

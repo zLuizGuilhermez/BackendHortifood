@@ -16,6 +16,7 @@ public class Cliente {
     private Long id;
     private String nome;
     private String telefone;
+    private String cpf;
     private String emailCliente;
     private String senhaCliente;
 
@@ -26,6 +27,15 @@ public class Cliente {
     private List<ClienteEndereco> clienteEndereco;
 
     public Cliente() {
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public String getCpf() {
+        return cpf;
+
     }
 
     public Long getId() {
