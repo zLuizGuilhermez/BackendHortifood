@@ -1,4 +1,4 @@
-package com.hortifood.demo.repository;
+package com.hortifood.demo.repository.EntregadorRepository;
 
 import com.hortifood.demo.entity.entregador.Entregador.Entregador;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface EntregadorRepository extends JpaRepository<Entregador, Long> {
     Optional<Entregador> findFirstByCpfEntregador(String cpf);
+    Optional<Entregador> findFirstByEmailAndSenhaEntregador(String email, String senhaEntregador);
 }

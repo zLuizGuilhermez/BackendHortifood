@@ -1,16 +1,19 @@
 package com.hortifood.demo.service;
 
 import com.hortifood.demo.dto.Inside.LojaDTO;
-import com.hortifood.demo.entity.Produto.Produto;
 import com.hortifood.demo.entity.loja.CardapioLoja;
 import com.hortifood.demo.entity.loja.EnderecoLoja;
 import com.hortifood.demo.entity.loja.Loja;
-import com.hortifood.demo.repository.CardapioLojaRepository;
-import com.hortifood.demo.repository.LojaRepository;
+import com.hortifood.demo.repository.LojaRepository.CardapioLojaRepository;
+import com.hortifood.demo.repository.LojaRepository.LojaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
+import java.security.Key;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,6 +24,10 @@ public class LojaService {
 
     @Autowired
     private CardapioLojaRepository cardapioLojaRepository;
+
+
+    @Value("${jwt.secret}")
+    private String secretKey;
 
 
     public Loja criarLoja(String nome, String telefone, String email,String descricao, String senha) {
@@ -34,6 +41,19 @@ public class LojaService {
         loja.setSenhaLoja(senha);
 
         return lojaRepository.save(loja);
+    }
+
+    public String autenticarEGerarToken(String email, String senha) {
+        Optional<Loja> lojaOpt = lojaRepository.findFirstByEmailLojaAndSenhaLoja(email, senha);
+        if (lojaOpt.isPresent()) {
+            Key key = Keys.hmacShaKeyFor(secretKey.getBytes());
+            return Jwts.builder()
+                    .setSubject(email)
+                    .signWith(key, SignatureAlgorithm.HS256)
+                    .compact();
+        } else {
+            throw new RuntimeException("Email ou senha inválidos.");
+        }
     }
 
     public EnderecoLoja criarEnderecoLoja(String cep, String rua, String numero, String complemento, String bairro, String cidade, String estado) {

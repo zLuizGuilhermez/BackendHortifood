@@ -8,13 +8,11 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication
 @EnableJpaRepositories(basePackages = "com.hortifood.demo.repository")
 @EntityScan(basePackages = "com.hortifood.demo.entity")
-public class HortiFoodApplication{
-
+public class HortiFoodApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(HortiFoodApplication.class, args);
 	}
 
-
-
 }
+

@@ -1,7 +1,6 @@
 package com.hortifood.demo.entity.cliente;
 
 import com.hortifood.demo.entity.metodoPagamento.MetodoPagamento;
-import com.hortifood.demo.repository.ClienteEnderecoRepository;
 import jakarta.persistence.*;
 
 import java.util.List;

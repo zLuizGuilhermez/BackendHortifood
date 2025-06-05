@@ -2,9 +2,10 @@ package com.hortifood.demo.entity.entregador.Entregador;
 import com.hortifood.demo.entity.entregador.DocumentoEntregador.EntregadorDocumentosEntity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "Entregador")
@@ -14,8 +15,13 @@ public class Entregador {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idEntregador;
     private int status;
+    @Column(nullable = false)
     private String nomeEntregador;
+    @Column(unique = true, nullable = false)
     private String cpfEntregador;
+    @Column(nullable = false)
+    private String senhaEntregador;
+    @Column(nullable = false)
     private String email;
     private LocalDate dataNascimento;
     @Enumerated(EnumType.STRING)
@@ -27,16 +33,16 @@ public class Entregador {
     private EnderecoEntregadorEntity enderecoEntregadorEntity;
 
     @OneToMany(mappedBy = "entregador",cascade = CascadeType.ALL)
-    private ArrayList<EntregadorDocumentosEntity> documentos;
+    private List<EntregadorDocumentosEntity> documentos;
 
     public Entregador() {
     }
 
-    public ArrayList<EntregadorDocumentosEntity> getDocumentos() {
+    public List<EntregadorDocumentosEntity> getDocumentos() {
         return documentos;
     }
 
-    public void setDocumentos(ArrayList<EntregadorDocumentosEntity> documentos) {
+    public void setDocumentos(List<EntregadorDocumentosEntity> documentos) {
         this.documentos = documentos;
     }
 
@@ -46,6 +52,13 @@ public class Entregador {
 
     public void setEnderecoEntregadorEntity(EnderecoEntregadorEntity enderecoEntregadorEntity) {
         this.enderecoEntregadorEntity = enderecoEntregadorEntity;
+    }
+
+    public String getSenhaEntregador() {
+        return senhaEntregador;
+    }
+    public void setSenhaEntregador(String senhaEntregador) {
+        this.senhaEntregador = senhaEntregador;
     }
 
     public long getTotalEntregas() {

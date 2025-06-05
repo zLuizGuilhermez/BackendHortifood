@@ -1,4 +1,4 @@
-package com.hortifood.demo.repository;
+package com.hortifood.demo.repository.EntregadorRepository;
 
 import com.hortifood.demo.entity.entregador.Entregador.EnderecoEntregadorEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

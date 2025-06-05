@@ -1,4 +1,4 @@
-package com.hortifood.demo.repository;
+package com.hortifood.demo.repository.ClienteRepository;
 
 import com.hortifood.demo.entity.cliente.Cliente;
 import org.springframework.data.jpa.repository.JpaRepository;

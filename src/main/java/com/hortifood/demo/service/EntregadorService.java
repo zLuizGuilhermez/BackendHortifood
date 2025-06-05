@@ -4,17 +4,25 @@ import com.hortifood.demo.entity.entregador.DocumentoEntregador.EntregadorDocume
 import com.hortifood.demo.entity.entregador.DocumentoEntregador.TipoDocumento;
 import com.hortifood.demo.entity.entregador.Entregador.Entregador;
 import com.hortifood.demo.entity.entregador.Entregador.EnderecoEntregadorEntity;
-import com.hortifood.demo.repository.EntregadorDocumentoRepository;
-import com.hortifood.demo.repository.EntregadorEnderecoRepository;
-import com.hortifood.demo.repository.EntregadorRepository;
+import com.hortifood.demo.repository.EntregadorRepository.EntregadorDocumentoRepository;
+import com.hortifood.demo.repository.EntregadorRepository.EntregadorEnderecoRepository;
+import com.hortifood.demo.repository.EntregadorRepository.EntregadorRepository;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.security.Key;
 import java.time.LocalDate;
 import java.util.Optional;
 
 @Service
 public class EntregadorService {
+
+    @Value("${jwt.secret}")
+    private String secretKey;
 
     @Autowired
     private EntregadorRepository entregadorRepository;
@@ -25,7 +33,7 @@ public class EntregadorService {
     @Autowired
     private EntregadorDocumentoRepository entregadorDocumentoRepository;
 
-    public Entregador criarEntregadorParcial(String nome, String cpf, String email, LocalDate nascimento) {
+    public Entregador criarEntregadorParcial(String nome, String cpf,String senha, String email, LocalDate nascimento) {
         Entregador entregador = new Entregador();
         entregador.setNomeEntregador(nome);
         entregador.setCpfEntregador(cpf);
@@ -33,8 +41,22 @@ public class EntregadorService {
         entregador.setDataNascimento(nascimento);
         entregador.setStatus(1);
         entregador.setTotalEntregas(0);
+        entregador.setSenhaEntregador(senha);
 
         return entregadorRepository.save(entregador);
+    }
+
+    public String autenticarEGerarToken(String email, String senha) {
+        Optional<Entregador> entregadorOpt = entregadorRepository.findFirstByEmailAndSenhaEntregador(email, senha);
+        if (entregadorOpt.isPresent()) {
+            Key key = Keys.hmacShaKeyFor(secretKey.getBytes());
+            return Jwts.builder()
+                    .setSubject(email)
+                    .signWith(key, SignatureAlgorithm.HS256)
+                    .compact();
+        } else {
+            throw new RuntimeException("Entregador não encontrado ou senha incorreta.");
+        }
     }
     
     public void criarEntregadorFinal(Entregador entregador, EnderecoEntregadorEntity enderecoEntregadorEntity, EntregadorDocumentosEntity entregadorDocumentosEntity){

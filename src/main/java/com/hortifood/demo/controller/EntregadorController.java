@@ -13,9 +13,9 @@ public class EntregadorController {
     @Autowired
     EntregadorService entregadorService;
 
-    @GetMapping("/criarentregador")
+    @PostMapping("/criarentregador")
     void criarEntregador(@RequestBody EntregadorDTO entregadorDTO) {
-        entregadorService.criarEntregadorFinal(entregadorService.criarEntregadorParcial(entregadorDTO.getNomeEntregador(), entregadorDTO.getCpfEntregador(), entregadorDTO.getEmail(),
+        entregadorService.criarEntregadorFinal(entregadorService.criarEntregadorParcial(entregadorDTO.getNomeEntregador(), entregadorDTO.getCpfEntregador(),entregadorDTO.getSenhaEntregador(), entregadorDTO.getEmail(),
                 entregadorDTO.getDataNascimento()), entregadorService.criarEndereco(entregadorDTO.getEstado(),
                 entregadorDTO.getCidade(), entregadorDTO.getBairro(), entregadorDTO.getLogradouro(), entregadorDTO.getCasa(),
                 entregadorDTO.getCep()), entregadorService.criarDoc(entregadorDTO.getTipoDocumento(), entregadorDTO.getDataEnvio()));

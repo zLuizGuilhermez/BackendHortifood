@@ -2,14 +2,12 @@ package com.hortifood.demo.service;
 
 import com.hortifood.demo.entity.cliente.Cliente;
 import com.hortifood.demo.entity.metodoPagamento.MetodoPagamento;
-import com.hortifood.demo.repository.ClientRepository;
-import com.hortifood.demo.repository.MetodoPagamentoRepository;
+import com.hortifood.demo.repository.ClienteRepository.ClientRepository;
+import com.hortifood.demo.repository.ClienteRepository.MetodoPagamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.net.http.HttpConnectTimeoutException;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
 
 @Service
