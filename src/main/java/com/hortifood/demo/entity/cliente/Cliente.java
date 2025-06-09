@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 
 import java.util.List;
 
-
 @Entity
 @Table(name = "cliente")
 public class Cliente {
@@ -24,6 +23,9 @@ public class Cliente {
 
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ClienteEndereco> clienteEndereco;
+
+    @OneToOne(mappedBy = "cliente", cascade = CascadeType.ALL)
+    private HistoricoCompraCliente historicoCompras;
 
     public Cliente() {
     }
@@ -91,5 +93,13 @@ public class Cliente {
 
     public void setSenhaCliente(String senhaCliente) {
         this.senhaCliente = senhaCliente;
+    }
+
+    public HistoricoCompraCliente getHistoricoCompras() {
+        return historicoCompras;
+    }
+
+    public void setHistoricoCompras(HistoricoCompraCliente historicoCompras) {
+        this.historicoCompras = historicoCompras;
     }
 }

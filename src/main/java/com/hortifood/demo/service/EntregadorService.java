@@ -4,9 +4,10 @@ import com.hortifood.demo.entity.entregador.DocumentoEntregador.EntregadorDocume
 import com.hortifood.demo.entity.entregador.DocumentoEntregador.TipoDocumento;
 import com.hortifood.demo.entity.entregador.Entregador.Entregador;
 import com.hortifood.demo.entity.entregador.Entregador.EnderecoEntregadorEntity;
-import com.hortifood.demo.repository.EntregadorRepository.EntregadorDocumentoRepository;
-import com.hortifood.demo.repository.EntregadorRepository.EntregadorEnderecoRepository;
-import com.hortifood.demo.repository.EntregadorRepository.EntregadorRepository;
+import com.hortifood.demo.repository.entregadorrepository.EntregadorDocumentoRepository;
+import com.hortifood.demo.repository.entregadorrepository.EntregadorEnderecoRepository;
+import com.hortifood.demo.repository.entregadorrepository.EntregadorRepository;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -51,14 +52,23 @@ public class EntregadorService {
         if (entregadorOpt.isPresent()) {
             Key key = Keys.hmacShaKeyFor(secretKey.getBytes());
             return Jwts.builder()
-                    .setSubject(email)
+                    .setSubject(String.valueOf(entregadorOpt.get().getIdEntregador()))
                     .signWith(key, SignatureAlgorithm.HS256)
                     .compact();
         } else {
             throw new RuntimeException("Entregador não encontrado ou senha incorreta.");
         }
     }
-    
+
+    public Long decodificarIdDoToken(String token) {
+        Claims claims = Jwts.parserBuilder()
+            .setSigningKey(Keys.hmacShaKeyFor(secretKey.getBytes()))
+            .build()
+            .parseClaimsJws(token)
+            .getBody();
+        return Long.valueOf(claims.getSubject());
+    }
+
     public void criarEntregadorFinal(Entregador entregador, EnderecoEntregadorEntity enderecoEntregadorEntity, EntregadorDocumentosEntity entregadorDocumentosEntity){
         enderecoEntregadorEntity.setEntregador(entregador);
         entregadorDocumentosEntity.setEntregador(entregador);

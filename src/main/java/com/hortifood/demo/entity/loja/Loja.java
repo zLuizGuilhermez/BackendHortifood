@@ -2,6 +2,7 @@ package com.hortifood.demo.entity.loja;
 import jakarta.persistence.*;
 
 import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 @Table(name = "loja")
@@ -34,6 +35,9 @@ public class Loja {
 
     @OneToOne(mappedBy = "loja", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private CardapioLoja cardapio;
+
+    @OneToOne(mappedBy = "loja", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private HistoricoLoja historicos;
 
     public Loja() {
     }
@@ -132,5 +136,13 @@ public class Loja {
 
     public void setCardapio(CardapioLoja cardapio) {
         this.cardapio = cardapio;
+    }
+
+    public HistoricoLoja getHistoricos() {
+        return historicos;
+    }
+
+    public void setHistoricos(HistoricoLoja historicos) {
+        this.historicos = historicos;
     }
 }

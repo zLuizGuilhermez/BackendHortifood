@@ -2,8 +2,8 @@ package com.hortifood.demo.service;
 
 import com.hortifood.demo.entity.cliente.Cliente;
 import com.hortifood.demo.entity.metodoPagamento.MetodoPagamento;
-import com.hortifood.demo.repository.ClienteRepository.ClientRepository;
-import com.hortifood.demo.repository.ClienteRepository.MetodoPagamentoRepository;
+import com.hortifood.demo.repository.clienterepository.ClientRepository;
+import com.hortifood.demo.repository.clienterepository.MetodoPagamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

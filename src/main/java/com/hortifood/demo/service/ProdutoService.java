@@ -2,7 +2,7 @@ package com.hortifood.demo.service;
 
 import com.hortifood.demo.entity.Produto.Produto;
 import com.hortifood.demo.entity.Produto.TipoProduto;
-import com.hortifood.demo.repository.LojaRepository.ProdutoRepository;
+import com.hortifood.demo.repository.lojarepository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,11 +1,13 @@
 package com.hortifood.demo.service;
 
 import com.hortifood.demo.dto.Inside.LojaDTO;
+import com.hortifood.demo.entity.entregador.Entregador.Entregador;
 import com.hortifood.demo.entity.loja.CardapioLoja;
 import com.hortifood.demo.entity.loja.EnderecoLoja;
 import com.hortifood.demo.entity.loja.Loja;
-import com.hortifood.demo.repository.LojaRepository.CardapioLojaRepository;
-import com.hortifood.demo.repository.LojaRepository.LojaRepository;
+import com.hortifood.demo.repository.lojarepository.CardapioLojaRepository;
+import com.hortifood.demo.repository.lojarepository.LojaRepository;
+import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import io.jsonwebtoken.Jwts;
@@ -43,17 +45,27 @@ public class LojaService {
         return lojaRepository.save(loja);
     }
 
+
     public String autenticarEGerarToken(String email, String senha) {
         Optional<Loja> lojaOpt = lojaRepository.findFirstByEmailLojaAndSenhaLoja(email, senha);
         if (lojaOpt.isPresent()) {
             Key key = Keys.hmacShaKeyFor(secretKey.getBytes());
             return Jwts.builder()
-                    .setSubject(email)
+                    .setSubject(String.valueOf(lojaOpt.get().getIdLoja()))
                     .signWith(key, SignatureAlgorithm.HS256)
                     .compact();
         } else {
-            throw new RuntimeException("Email ou senha inválidos.");
+            throw new RuntimeException("Entregador não encontrado ou senha incorreta.");
         }
+    }
+
+    public Long decodificarIdDoToken(String token) {
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(Keys.hmacShaKeyFor(secretKey.getBytes()))
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+        return Long.valueOf(claims.getSubject());
     }
 
     public EnderecoLoja criarEnderecoLoja(String cep, String rua, String numero, String complemento, String bairro, String cidade, String estado) {
