@@ -41,8 +41,8 @@ public class LojaController {
         lojaService.atualizarLoja(lojaDTO.getEmailLoja(), lojaDTO);
     }
 
-    @PostMapping("/adicionarItemCardapio/{lojaId}")
-    public Loja adicionarItemCardapio(@PathVariable Long lojaId, @RequestBody ProdutoDTO produtoDTO) {
-        return lojaService.adicionarItemNoCardapio(lojaId, produtoDTO);
-    }
+//    @PostMapping("/adicionarItemCardapio/{lojaId}")
+//    public Loja adicionarItemCardapio(@PathVariable Long lojaId, @RequestBody ProdutoDTO produtoDTO) {
+//        return lojaService.adicionarItemNoCardapio(lojaId, produtoDTO);
+//    }
 }

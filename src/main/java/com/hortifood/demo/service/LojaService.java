@@ -131,26 +131,26 @@ public class LojaService {
         return lojaRepository.save(loja);
     }
 
-    public Loja adicionarItemNoCardapio(Long lojaId, ProdutoDTO produtoDTO) {
-        Loja loja = lojaRepository.findById(lojaId)
-                .orElseThrow(() -> new RuntimeException("Loja não encontrada"));
-        CardapioLoja cardapio = loja.getCardapio();
-        if (cardapio == null) {
-            cardapio = criarCardapio();
-            cardapio.setLoja(loja);
-            cardapioLojaRepository.save(cardapio);
-            loja.setCardapio(cardapio);
-        }
-        Produto produto = new Produto();
-        produto.setNome(produtoDTO.getNome());
-        produto.setDescricao(produtoDTO.getDescricao());
-        produto.setPreco(produtoDTO.getPreco());
-        produto.setCategoria(produtoDTO.getCategoria());
-        produto.setImagemUrl(produtoDTO.getImagemUrl());
-        produto.setDisponivel(produtoDTO.getDisponivel());
-        produto.setCardapioLoja(cardapio);
-        cardapio.getProdutos().add(produto);
-        cardapioLojaRepository.save(cardapio);
-        return lojaRepository.save(loja);
-    }
+//    public Loja adicionarItemNoCardapio(Long lojaId, ProdutoDTO produtoDTO) {
+//        Loja loja = lojaRepository.findById(lojaId)
+//                .orElseThrow(() -> new RuntimeException("Loja não encontrada"));
+//        CardapioLoja cardapio = loja.getCardapio();
+//        if (cardapio == null) {
+//            cardapio = criarCardapio();
+//            cardapio.setLoja(loja);
+//            cardapioLojaRepository.save(cardapio);
+//            loja.setCardapio(cardapio);
+//        }
+//        Produto produto = new Produto();
+//        produto.setNome(produtoDTO.getNome());
+//        produto.setDescricao(produtoDTO.getDescricao());
+//        produto.setPreco(produtoDTO.getPreco());
+//        produto.setCategoria(produtoDTO .getCategoria());
+//        produto.setImagemUrl(produtoDTO.getImagemUrl());
+//        produto.setDisponivel(produtoDTO.getDisponivel());
+//        produto.setCardapioLoja(cardapio);
+//        cardapio.getProdutos().add(produto);
+//        cardapioLojaRepository.save(cardapio);
+//        return lojaRepository.save(loja);
+//    }
 }

@@ -3,8 +3,10 @@ package com.hortifood.demo.security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +14,8 @@ import java.util.function.Function;
 
 @Component
 public class JwtUtil {
-    private final String SECRET_KEY = "minhaChaveSecretaJwt123";
+    // Chave secreta forte para HS256
+    private static final SecretKey SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -21,6 +24,19 @@ public class JwtUtil {
     public Long extractClienteId(String token) {
         Claims claims = extractAllClaims(token);
         Object idObj = claims.get("clienteId");
+        if (idObj instanceof Integer) {
+            return ((Integer) idObj).longValue();
+        } else if (idObj instanceof Long) {
+            return (Long) idObj;
+        } else if (idObj != null) {
+            return Long.parseLong(idObj.toString());
+        }
+        return null;
+    }
+
+    public Long extractUserId(String token) {
+        Claims claims = extractAllClaims(token);
+        Object idObj = claims.get("userId");
         if (idObj instanceof Integer) {
             return ((Integer) idObj).longValue();
         } else if (idObj instanceof Long) {
@@ -51,9 +67,9 @@ public class JwtUtil {
         return extractClaim(token, Claims::getExpiration);
     }
 
-    public String generateToken(String username, Long clienteId) {
+    public String generateToken(String username, Long userId) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("clienteId", clienteId);
+        claims.put("userId", userId);
         return createToken(claims, username);
     }
 
@@ -63,7 +79,7 @@ public class JwtUtil {
                 .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+                .signWith(SECRET_KEY)
                 .compact();
     }
 }

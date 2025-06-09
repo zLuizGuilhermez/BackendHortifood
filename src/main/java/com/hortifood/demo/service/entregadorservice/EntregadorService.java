@@ -1,4 +1,4 @@
-package com.hortifood.demo.service;
+package com.hortifood.demo.service.entregadorservice;
 
 import com.hortifood.demo.entity.entregador.DocumentoEntregador.EntregadorDocumentosEntity;
 import com.hortifood.demo.entity.entregador.DocumentoEntregador.TipoDocumento;
@@ -47,26 +47,9 @@ public class EntregadorService {
         return entregadorRepository.save(entregador);
     }
 
-    public String autenticarEGerarToken(String email, String senha) {
+    public Entregador autenticar(String email, String senha) {
         Optional<Entregador> entregadorOpt = entregadorRepository.findFirstByEmailAndSenhaEntregador(email, senha);
-        if (entregadorOpt.isPresent()) {
-            Key key = Keys.hmacShaKeyFor(secretKey.getBytes());
-            return Jwts.builder()
-                    .setSubject(String.valueOf(entregadorOpt.get().getIdEntregador()))
-                    .signWith(key, SignatureAlgorithm.HS256)
-                    .compact();
-        } else {
-            throw new RuntimeException("Entregador não encontrado ou senha incorreta.");
-        }
-    }
-
-    public Long decodificarIdDoToken(String token) {
-        Claims claims = Jwts.parserBuilder()
-            .setSigningKey(Keys.hmacShaKeyFor(secretKey.getBytes()))
-            .build()
-            .parseClaimsJws(token)
-            .getBody();
-        return Long.valueOf(claims.getSubject());
+        return entregadorOpt.orElse(null);
     }
 
     public void criarEntregadorFinal(Entregador entregador, EnderecoEntregadorEntity enderecoEntregadorEntity, EntregadorDocumentosEntity entregadorDocumentosEntity){

@@ -1,12 +1,9 @@
 package com.hortifood.demo.controller.crudcontroller.entregadorcrudcontroller;
 
 import com.hortifood.demo.dto.Inside.EntregadorDTO;
-import com.hortifood.demo.service.EntregadorService;
-import com.hortifood.demo.security.CustomUserDetails;
+import com.hortifood.demo.service.entregadorservice.EntregadorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.http.ResponseEntity;
 
 @RestController
@@ -34,25 +31,25 @@ public class EntregadorController {
         }
     }
 
-    @DeleteMapping("/deletarentregador")
-    public ResponseEntity<?> deletarEntregador(@AuthenticationPrincipal UserDetails userDetails) {
-        try {
-            Long entregadorId = ((CustomUserDetails) userDetails).getId();
-            entregadorService.removerEntregadorPorId(entregadorId);
-            return ResponseEntity.ok().build();
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body("Erro ao deletar entregador: " + e.getMessage());
-        }
-    }
-
-    @PutMapping("/alterarentregador")
-    public ResponseEntity<?> alterarEntregador(@AuthenticationPrincipal UserDetails userDetails, @RequestBody EntregadorDTO entregadorDTO) {
-        try {
-            Long entregadorId = ((CustomUserDetails) userDetails).getId();
-            entregadorService.atualizarEntregadorPorId(entregadorId, entregadorDTO);
-            return ResponseEntity.ok().build();
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body("Erro ao atualizar entregador: " + e.getMessage());
-        }
-    }
+//    @DeleteMapping("/deletarentregador")
+//    public ResponseEntity<?> deletarEntregador(@AuthenticationPrincipal UserDetails userDetails) {
+//        try {
+//            Long entregadorId = ((CustomUserDetails) userDetails).getId();
+//            entregadorService.removerEntregadorPorId(entregadorId);
+//            return ResponseEntity.ok().build();
+//        } catch (Exception e) {
+//            return ResponseEntity.status(500).body("Erro ao deletar entregador: " + e.getMessage());
+//        }
+//    }
+//
+//    @PutMapping("/alterarentregador")
+//    public ResponseEntity<?> alterarEntregador(@AuthenticationPrincipal UserDetails userDetails, @RequestBody EntregadorDTO entregadorDTO) {
+//        try {
+//            Long entregadorId = ((CustomUserDetails) userDetails).getId();
+//            entregadorService.atualizarEntregadorPorId(entregadorId, entregadorDTO);
+//            return ResponseEntity.ok().build();
+//        } catch (Exception e) {
+//            return ResponseEntity.status(500).body("Erro ao atualizar entregador: " + e.getMessage());
+//        }
+//    }
 }
