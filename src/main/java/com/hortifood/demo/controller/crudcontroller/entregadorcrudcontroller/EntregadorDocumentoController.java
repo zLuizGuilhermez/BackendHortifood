@@ -1,13 +1,14 @@
 package com.hortifood.demo.controller.crudcontroller.entregadorcrudcontroller;
 
 import com.hortifood.demo.dto.Inside.entregadordto.EntregadorDocumentoDTO;
-import com.hortifood.demo.entity.entregador.EntregadorDocumento;
+import com.hortifood.demo.entity.entregador.DocumentoEntregador.EntregadorDocumentosEntity;
 import com.hortifood.demo.security.CustomUserDetails;
-import com.hortifood.demo.service.EntregadorDocumentoService;
+import com.hortifood.demo.service.entregadorservice.EntregadorDocumentoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -19,34 +20,36 @@ public class EntregadorDocumentoController {
     @Autowired
     private EntregadorDocumentoService entregadorDocumentoService;
 
-    @PostMapping("/criar")
-    public EntregadorDocumento criarDocumento(@RequestBody EntregadorDocumentoDTO documentoDTO, @AuthenticationPrincipal UserDetails userDetails) {
-        Long entregadorId = ((CustomUserDetails) userDetails).getId();
-        return entregadorDocumentoService.criarDocumentoParaEntregador(entregadorId, documentoDTO);
-    }
-
     @GetMapping("/{id}")
-    public EntregadorDocumento buscarDocumento(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
-        Long entregadorId = ((CustomUserDetails) userDetails).getId();
-        return entregadorDocumentoService.buscarDocumentoPorIdEEntregador(id, entregadorId);
-    }
-
-    @PutMapping("/atualizar/{id}")
-    public EntregadorDocumento atualizarDocumento(@PathVariable Long id, @RequestBody EntregadorDocumentoDTO documentoDTO, @AuthenticationPrincipal UserDetails userDetails) {
-        Long entregadorId = ((CustomUserDetails) userDetails).getId();
-        return entregadorDocumentoService.atualizarDocumentoPorIdEEntregador(id, entregadorId, documentoDTO);
+    public ResponseEntity<?> buscarDocumento(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
+        try {
+            Long entregadorId = ((CustomUserDetails) userDetails).getId();
+            EntregadorDocumentosEntity documento = entregadorDocumentoService.buscarDocumentoPorIdEEntregador(id, entregadorId);
+            return ResponseEntity.ok(documento);
+        } catch (Exception e) {
+            return ResponseEntity.status(404).body("Documento não encontrado: " + e.getMessage());
+        }
     }
 
     @DeleteMapping("/deletar/{id}")
-    public void deletarDocumento(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
-        Long entregadorId = ((CustomUserDetails) userDetails).getId();
-        entregadorDocumentoService.deletarDocumentoPorIdEEntregador(id, entregadorId);
+    public ResponseEntity<?> deletarDocumento(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
+        try {
+            Long entregadorId = ((CustomUserDetails) userDetails).getId();
+            entregadorDocumentoService.deletarDocumentoPorIdEEntregador(id, entregadorId);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Erro ao deletar documento: " + e.getMessage());
+        }
     }
 
     @GetMapping("/meus-documentos")
-    public List<EntregadorDocumento> listarDocumentos(@AuthenticationPrincipal UserDetails userDetails) {
-        Long entregadorId = ((CustomUserDetails) userDetails).getId();
-        return entregadorDocumentoService.listarDocumentosPorEntregador(entregadorId);
+    public ResponseEntity<?> listarDocumentos(@AuthenticationPrincipal UserDetails userDetails) {
+        try {
+            Long entregadorId = ((CustomUserDetails) userDetails).getId();
+            List<EntregadorDocumentosEntity> documentos = entregadorDocumentoService.listarDocumentosPorEntregadorBidirecional(entregadorId);
+            return ResponseEntity.ok(documentos);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Erro ao listar documentos: " + e.getMessage());
+        }
     }
 }
-

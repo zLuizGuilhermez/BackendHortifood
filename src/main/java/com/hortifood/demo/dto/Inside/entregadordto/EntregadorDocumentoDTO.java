@@ -5,8 +5,17 @@ public class EntregadorDocumentoDTO {
     private String numero;
     private String validade;
     private String imagemUrl;
+    private String statusDocumento;
 
-    // Getters e setters
+
+    public String getStatusDocumento() {
+        return statusDocumento;
+    }
+
+    public void setStatusDocumento(String statusDocumento) {
+        this.statusDocumento = statusDocumento;
+    }
+
     public String getTipo() { return tipo; }
     public void setTipo(String tipo) { this.tipo = tipo; }
     public String getNumero() { return numero; }

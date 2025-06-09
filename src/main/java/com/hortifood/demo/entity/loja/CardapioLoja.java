@@ -3,59 +3,58 @@ package com.hortifood.demo.entity.loja;
 import com.hortifood.demo.entity.Produto.Produto;
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
-
 
 @Entity
 @Table(name = "CardapioLoja")
 public class CardapioLoja {
 
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Long idCardapioRestaurante;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-        private String nomeCardapio;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "loja_id", nullable = false)
+    private Loja loja;
 
-        @OneToOne
-        @JoinColumn(name = "idLoja")
-        private Loja loja;
+    @OneToMany(mappedBy = "cardapioLoja", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Produto> produtos;
 
-        @OneToMany(mappedBy = "cardapioLoja", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-        private List<Produto> produtos;
+    @Column(name = "data_atribuicao", nullable = false)
+    private LocalDateTime dataAtribuicao;
 
-        public CardapioLoja(){
+    public CardapioLoja() {}
 
-        }
+    public Long getId() {
+        return id;
+    }
 
-        public List<Produto> getProdutos() {
-                return produtos;
-        }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-        public void setProdutos(List<Produto> produtos) {
-                this.produtos = produtos;
-        }
+    public Loja getLoja() {
+        return loja;
+    }
 
-        public Long getIdCardapioRestaurante() {
-                return idCardapioRestaurante;
-        }
+    public void setLoja(Loja loja) {
+        this.loja = loja;
+    }
 
-        public void setIdCardapioRestaurante(Long idCardapioRestaurante) {
-                this.idCardapioRestaurante = idCardapioRestaurante;
-        }
+    public List<Produto> getProdutos() {
+        return produtos;
+    }
 
-        public String getNomeCardapio() {
-                return nomeCardapio;
-        }
+    public void setProdutos(List<Produto> produtos) {
+        this.produtos = produtos;
+    }
 
-        public void setNomeCardapio(String nomeCardapio) {
-                this.nomeCardapio = nomeCardapio;
-        }
+    public LocalDateTime getDataAtribuicao() {
+        return dataAtribuicao;
+    }
 
-        public Loja getLoja() {
-                return loja;
-        }
-
-        public void setLoja(Loja loja) {
-                this.loja = loja;
-        }
+    public void setDataAtribuicao(LocalDateTime dataAtribuicao) {
+        this.dataAtribuicao = dataAtribuicao;
+    }
 }

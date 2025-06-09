@@ -8,7 +8,6 @@ public class EntregadorEnderecoDTO {
     private String casa;
     private String cep;
 
-    // Getters e setters
     public String getEstado() { return estado; }
     public void setEstado(String estado) { this.estado = estado; }
     public String getCidade() { return cidade; }

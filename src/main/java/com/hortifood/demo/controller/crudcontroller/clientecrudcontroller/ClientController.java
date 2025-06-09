@@ -6,6 +6,7 @@ import com.hortifood.demo.security.CustomUserDetails;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -23,23 +24,39 @@ public class ClientController {
     }
 
     @PostMapping("/criarcliente")
-    public Boolean criarCliente(@RequestBody ClientDTO clientDto){
-       clienteService.criarClienteFinal(clienteService.criarClientePart(clientDto.getNome(), clientDto.getTelefone(),
-               clientDto.getEmailCliente(), clientDto.getSenhaCliente(),clientDto.getCpf()),
-               clienteService.criarClienteEndereco(clientDto.getEstado(), clientDto.getCidade(),clientDto.getBairro(),
-                       clientDto.getLogradouro(),clientDto.getCasa(),clientDto.getCep()));
-       return true;
+    public ResponseEntity<?> criarCliente(@RequestBody ClientDTO clientDto) {
+        try {
+            clienteService.criarClienteFinal(
+                clienteService.criarClientePart(clientDto.getNome(), clientDto.getTelefone(),
+                    clientDto.getEmailCliente(), clientDto.getSenhaCliente(), clientDto.getCpf()),
+                clienteService.criarClienteEndereco(clientDto.getEstado(), clientDto.getCidade(), clientDto.getBairro(),
+                    clientDto.getLogradouro(), clientDto.getCasa(), clientDto.getCep())
+            );
+            return ResponseEntity.ok(true);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Erro ao criar cliente: " + e.getMessage());
+        }
     }
 
     @DeleteMapping("/deletarcliente")
-    public void deletarCliente(@AuthenticationPrincipal UserDetails userDetails) {
-        Long id = ((CustomUserDetails) userDetails).getId();
-        clienteService.removerClientePorId(id);
+    public ResponseEntity<?> deletarCliente(@AuthenticationPrincipal UserDetails userDetails) {
+        try {
+            Long id = ((CustomUserDetails) userDetails).getId();
+            clienteService.removerClientePorId(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Erro ao deletar cliente: " + e.getMessage());
+        }
     }
 
     @PutMapping("/alterarcliente")
-    public void atualizarCliente(@AuthenticationPrincipal UserDetails userDetails, @RequestBody ClientDTO clientDTO) {
-        Long id = ((CustomUserDetails) userDetails).getId();
-        clienteService.alterarInfoClientePorId(id, clientDTO);
+    public ResponseEntity<?> atualizarCliente(@AuthenticationPrincipal UserDetails userDetails, @RequestBody ClientDTO clientDTO) {
+        try {
+            Long id = ((CustomUserDetails) userDetails).getId();
+            clienteService.alterarInfoClientePorId(id, clientDTO);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Erro ao atualizar cliente: " + e.getMessage());
+        }
     }
 }

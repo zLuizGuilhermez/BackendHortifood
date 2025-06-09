@@ -1,6 +1,7 @@
 package com.hortifood.demo.controller.crudcontroller;
 
 import com.hortifood.demo.dto.Inside.LojaDTO;
+import com.hortifood.demo.dto.Inside.ProdutoDTO;
 import com.hortifood.demo.entity.loja.Loja;
 import com.hortifood.demo.service.LojaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,9 @@ public class LojaController {
     void alterarClient(@RequestBody LojaDTO lojaDTO) {
         lojaService.atualizarLoja(lojaDTO.getEmailLoja(), lojaDTO);
     }
+
+    @PostMapping("/adicionarItemCardapio/{lojaId}")
+    public Loja adicionarItemCardapio(@PathVariable Long lojaId, @RequestBody ProdutoDTO produtoDTO) {
+        return lojaService.adicionarItemNoCardapio(lojaId, produtoDTO);
+    }
 }
-
-
-
