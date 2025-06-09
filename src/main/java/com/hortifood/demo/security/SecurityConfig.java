@@ -28,7 +28,14 @@ public class SecurityConfig {
                     "/api/auth/**",
                     "/v3/api-docs/**",
                     "/swagger-ui/**",
-                    "/swagger-ui.html"
+                    "/swagger-ui.html",
+                    "/validarLoginCliente",
+                    "/validaCampoCliente",
+                    "/api/clientAuthcontroller/validarLoginCliente",
+                    "/api/clientAuthcontroller/validaCampoCliente",
+                    "/api/clientcontroller/criarcliente",
+                    "/api/entregadorAuthcontroller/validarLoginEntregador",
+                    "/api/entregadorAuthcontroller/validarCamposEntregador"
                 ).permitAll()
                 .anyRequest().authenticated()
             )

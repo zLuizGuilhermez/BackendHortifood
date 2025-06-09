@@ -1,6 +1,7 @@
 package com.hortifood.demo.entity.cliente;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "ClienteEndereco")
@@ -19,6 +20,7 @@ public class ClienteEndereco {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id", nullable = false)
+    @JsonIgnore
     private Cliente cliente;
 
     public ClienteEndereco() {

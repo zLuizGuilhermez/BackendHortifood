@@ -17,10 +17,17 @@ public class ClientController {
     @Autowired
     ClienteService clienteService;
 
-    @PostMapping("/buscarcliente")
-    public Cliente buscarCliente(@AuthenticationPrincipal UserDetails userDetails) {
-        Long id = ((CustomUserDetails) userDetails).getId();
-        return clienteService.buscarClientePorId(id);
+    @GetMapping("/buscarcliente")
+    public ResponseEntity<?> buscarCliente(@AuthenticationPrincipal UserDetails userDetails) {
+        try {
+            if (userDetails == null || !(userDetails instanceof CustomUserDetails)) {
+                return ResponseEntity.status(401).body("Usuário não autenticado ou token inválido");
+            }
+            Cliente cliente = clienteService.buscarClientePorId(((CustomUserDetails) userDetails).getId());
+            return ResponseEntity.ok(cliente);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Erro ao buscar cliente: " + e.getMessage());
+        }
     }
 
     @PostMapping("/criarcliente")

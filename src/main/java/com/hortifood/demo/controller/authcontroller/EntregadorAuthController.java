@@ -27,7 +27,7 @@ public class EntregadorAuthController {
     }
 
     @PostMapping("/validarLoginEntregador")
-    public ResponseEntity<?> validarLogin(@RequestBody EntregadorDTO entregadorDTO) {
+    public ResponseEntity<?> validarLogin(@RequestBody EntregadorValidarDTO entregadorDTO) {
         try {
             Entregador entregador = entregadorService.autenticar(entregadorDTO.getEmail(), entregadorDTO.getSenhaEntregador());
             if (entregador != null) {

@@ -1,5 +1,6 @@
 package com.hortifood.demo.service.entregadorservice;
 
+import com.hortifood.demo.dto.Inside.EntregadorDTO;
 import com.hortifood.demo.entity.entregador.DocumentoEntregador.EntregadorDocumentosEntity;
 import com.hortifood.demo.entity.entregador.DocumentoEntregador.TipoDocumento;
 import com.hortifood.demo.entity.entregador.Entregador.Entregador;
@@ -96,6 +97,15 @@ public class EntregadorService {
         }
     }
 
+    public void removerEntregadorPorId(Long id) {
+        Optional<Entregador> entregadorOpt = entregadorRepository.findById(id);
+        if (entregadorOpt.isPresent()) {
+            entregadorRepository.delete(entregadorOpt.get());
+        } else {
+            throw new RuntimeException("Entregador não encontrado");
+        }
+    }
+
     public Entregador atualizarEntregador(String cpf, String novoNome, LocalDate novaDataNascimento) {
         Optional<Entregador> entregadorOpt = entregadorRepository.findFirstByCpfEntregador(cpf);
 
@@ -109,5 +119,22 @@ public class EntregadorService {
         if (novaDataNascimento != null) entregador.setDataNascimento(novaDataNascimento);
 
         return entregadorRepository.save(entregador);
+    }
+
+    public void atualizarEntregadorPorId(Long entregadorId, EntregadorDTO entregadorDTO) {
+        Optional<Entregador> entregadorOpt = entregadorRepository.findById(entregadorId);
+        if (entregadorOpt.isPresent()) {
+            Entregador entregador = entregadorOpt.get();
+            entregador.setStatus(entregadorDTO.getStatus());
+            entregador.setNomeEntregador(entregadorDTO.getNomeEntregador());
+            entregador.setCpfEntregador(entregadorDTO.getCpfEntregador());
+            entregador.setEmail(entregadorDTO.getEmail());
+            entregador.setSenhaEntregador(entregadorDTO.getSenhaEntregador());
+            entregador.setDataNascimento(entregadorDTO.getDataNascimento());
+            entregador.setTipoVeiculo(entregadorDTO.getTipoVeiculo());
+            entregadorRepository.save(entregador);
+        } else {
+            throw new RuntimeException("Entregador não encontrado");
+        }
     }
 }

@@ -30,6 +30,7 @@ public class ClienteEnderecoService {
         endereco.setCidade(enderecoDTO.getCidade());
         endereco.setEstado(enderecoDTO.getEstado());
         endereco.setLogradouro(enderecoDTO.getLogradouro());
+        endereco.setCasa(enderecoDTO.getCasa());
         return clienteEnderecoRepository.save(endereco);
     }
 

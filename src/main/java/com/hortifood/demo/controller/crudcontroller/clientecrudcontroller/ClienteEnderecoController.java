@@ -35,7 +35,7 @@ public class ClienteEnderecoController {
         }
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/buscarEnderecoSingular/{id}")
     public ResponseEntity<?> buscarEndereco(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
         try {
             Long clienteId = ((CustomUserDetails) userDetails).getId();
