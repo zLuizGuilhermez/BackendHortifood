@@ -14,6 +14,9 @@ public class Produto {
     private String nome;
     private String descricao;
     private double preco;
+    private TipoProduto categoria;
+    private String ImagemUrl;
+    private boolean Disponivel;
     @Enumerated(EnumType.STRING)
     private TipoProduto tipoProduto;
 
@@ -70,5 +73,29 @@ public class Produto {
 
     public void setTipoProduto(TipoProduto tipoProduto) {
         this.tipoProduto = tipoProduto;
+    }
+
+    public TipoProduto getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(TipoProduto categoria) {
+        this.categoria = categoria;
+    }
+
+    public String getImagemUrl() {
+        return ImagemUrl;
+    }
+
+    public void setImagemUrl(String imagemUrl) {
+        ImagemUrl = imagemUrl;
+    }
+
+    public boolean isDisponivel() {
+        return Disponivel;
+    }
+
+    public void setDisponivel(boolean disponivel) {
+        Disponivel = disponivel;
     }
 }

@@ -15,13 +15,12 @@ public class LojaController {
     @Autowired
     LojaService lojaService;
 
-
     @GetMapping("/foundLoja")
     public Loja foundLoja(
-            @PathVariable String email,
-            @PathVariable String password
+            @RequestParam String email,
+            @RequestParam String password
     ) {
-        return null;
+        return lojaService.autenticarLoja(email, password);
     }
 
     @PostMapping("/newLoja")
