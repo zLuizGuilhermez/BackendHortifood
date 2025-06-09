@@ -8,7 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface CardapioLojaRepository extends JpaRepository<CardapioLoja, Long> {
-    Optional<CardapioLoja> findFirstByNomeCardapio(String nome);
-
-    Optional<CardapioLoja> findFirstByIdCardapioRestaurante(Long id);
+    Optional<CardapioLoja> findFirstById(Long id);
 }
