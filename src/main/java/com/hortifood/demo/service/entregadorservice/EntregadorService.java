@@ -1,5 +1,6 @@
 package com.hortifood.demo.service.entregadorservice;
 
+import com.hortifood.demo.dto.Inside.EntregadorDTO;
 import com.hortifood.demo.entity.entregador.DocumentoEntregador.EntregadorDocumentosEntity;
 import com.hortifood.demo.entity.entregador.DocumentoEntregador.TipoDocumento;
 import com.hortifood.demo.entity.entregador.Entregador.Entregador;
@@ -109,5 +110,31 @@ public class EntregadorService {
         if (novaDataNascimento != null) entregador.setDataNascimento(novaDataNascimento);
 
         return entregadorRepository.save(entregador);
+    }
+
+    public void removerEntregadorPorId(Long id){
+        Optional<Entregador> entregador = entregadorRepository.findFirstByIdEntregador(id);
+        entregador.ifPresent(entregadorRepository::delete);
+    }
+
+    public Entregador atualizarEntregadorPorId(Long id, EntregadorDTO dto){
+        Optional<Entregador> entregadorOpt = entregadorRepository.findFirstByIdEntregador(id);
+        if(entregadorOpt.isEmpty()){
+            throw new RuntimeException("Entregador não encontrado com o id fornecido.");
+        }
+        Entregador entregador = entregadorOpt.get();
+        atualizarCampo(dto.getNomeEntregador(), entregador::setNomeEntregador);
+        atualizarCampo(dto.getEmail(), entregador::setEmail);
+        atualizarCampo(dto.getSenhaEntregador(), entregador::setSenhaEntregador);
+
+        // adicionar a lógica do entregador endereço
+
+        return entregadorRepository.save(entregador);
+    }
+
+    private <T> void atualizarCampo(T valor, java.util.function.Consumer<T> setter) {
+        if (valor != null) {
+            setter.accept(valor);
+        }
     }
 }

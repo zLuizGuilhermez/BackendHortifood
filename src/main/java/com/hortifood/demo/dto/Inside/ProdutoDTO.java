@@ -8,6 +8,8 @@ public class ProdutoDTO {
     private String descricao;
     private double preco;
     private TipoProduto tipoProduto;
+    private String ImagemUrl;
+    private boolean Disponivel;
     private long id;
 
     public ProdutoDTO(){}
@@ -50,5 +52,21 @@ public class ProdutoDTO {
 
     public void setTipoProduto(TipoProduto tipoProduto) {
         this.tipoProduto = tipoProduto;
+    }
+
+    public String getImagemUrl() {
+        return ImagemUrl;
+    }
+
+    public void setImagemUrl(String imagemUrl) {
+        ImagemUrl = imagemUrl;
+    }
+
+    public boolean isDisponivel() {
+        return Disponivel;
+    }
+
+    public void setDisponivel(boolean disponivel) {
+        Disponivel = disponivel;
     }
 }
