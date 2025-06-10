@@ -1,9 +1,11 @@
 package com.hortifood.demo.entity.loja;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
-
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Table(name = "EnderecoLoja")
 public class EnderecoLoja {
@@ -27,7 +29,7 @@ public class EnderecoLoja {
     private String estado;
 
     @OneToOne(mappedBy = "enderecoLoja", fetch = FetchType.LAZY)
-    @JsonIgnore
+    @JsonBackReference
     private Loja loja;
 
     public EnderecoLoja() {

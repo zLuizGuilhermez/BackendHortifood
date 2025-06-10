@@ -18,25 +18,25 @@ public class MetodoPagamentoService {
     @Autowired
     MetodoPagamentoRepository metodoPagamentoRepository;
 
-//    public void criarMetodoPagamento(Long id, LocalDate dataVencimento, int cvv) {
-//            Optional<Cliente> cliente = clientRepository.findFirstById(id);
-//
-//            if (cliente.isPresent()) {
-//                Cliente cliente1 = cliente.get();
-//
-//                MetodoPagamento metodoPagamento = new MetodoPagamento();
-//                metodoPagamento.setNumero(numero);
-//                metodoPagamento.setDataVencimento(dataVencimento);
-//                metodoPagamento.setCvv(cvv);
-//                metodoPagamento.setCliente(cliente1);
-//
-//                metodoPagamentoRepository.save(metodoPagamento);
-//
-//            }
-//
-//    }
+    public void criarMetodoPagamento(Long id, LocalDate dataVencimento, int cvv, String numero) {
+            Optional<Cliente> cliente = clientRepository.findFirstById(id);
+
+            if (cliente.isPresent()) {
+
+                MetodoPagamento metodoPagamento = new MetodoPagamento();
+                metodoPagamento.setNumero(numero);
+                metodoPagamento.setDataVencimento(dataVencimento);
+                metodoPagamento.setCvv(cvv);
+                metodoPagamento.setCliente(cliente.get());
+
+                metodoPagamentoRepository.save(metodoPagamento);
+
+            }
+
+    }
 
     public void removerMetodoPagamento(long id){
+
         Optional<MetodoPagamento> metodoPagamento = metodoPagamentoRepository.findById(id);
 
         MetodoPagamento metodoPagamento2 = metodoPagamento.get();

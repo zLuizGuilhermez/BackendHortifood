@@ -1,9 +1,12 @@
 package com.hortifood.demo.entity.loja;
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.time.LocalTime;
 import java.util.List;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Table(name = "loja")
 public class Loja {
@@ -32,9 +35,11 @@ public class Loja {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "endereco_loja_id")
+    @JsonManagedReference
     private EnderecoLoja enderecoLoja;
 
     @OneToOne(mappedBy = "loja", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonManagedReference
     private CardapioLoja cardapio;
 
     @OneToOne(mappedBy = "loja", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
