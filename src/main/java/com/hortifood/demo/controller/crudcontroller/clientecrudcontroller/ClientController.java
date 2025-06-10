@@ -48,7 +48,7 @@ public class ClientController {
     @DeleteMapping("/deletarcliente")
     public ResponseEntity<?> deletarCliente(@AuthenticationPrincipal UserDetails userDetails) {
         try {
-            Long id = ((CustomUserDetails) userDetails).getId();
+            Long id = ((CustomUserDetails) userDetails).get;
             clienteService.removerClientePorId(id);
             return ResponseEntity.ok().build();
         } catch (Exception e) {

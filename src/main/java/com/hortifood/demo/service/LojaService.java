@@ -3,6 +3,7 @@ package com.hortifood.demo.service;
 import com.hortifood.demo.dto.Inside.LojaDTO;
 import com.hortifood.demo.dto.Inside.ProdutoDTO;
 import com.hortifood.demo.entity.Produto.Produto;
+import com.hortifood.demo.entity.cliente.Cliente;
 import com.hortifood.demo.entity.entregador.Entregador.Entregador;
 import com.hortifood.demo.entity.loja.CardapioLoja;
 import com.hortifood.demo.entity.loja.EnderecoLoja;
@@ -34,6 +35,17 @@ public class LojaService {
     private String secretKey;
 
 
+    public Loja buscarLojaPorId(Long id) {
+        Optional<Loja> cliente = lojaRepository.findFirstByIdLoja(id);
+        return cliente.orElse(null);
+    }
+    
+    public Loja autenticar(String email, String senha) {
+        Optional<Loja> clienteOpt = lojaRepository.findFirstByEmailLojaAndSenhaLoja(email, senha);
+        return clienteOpt.orElse(null);
+    }
+
+
     public Loja criarLoja(String nome, String telefone, String email,String descricao, String senha) {
         Loja loja = new Loja();
 
@@ -47,28 +59,6 @@ public class LojaService {
         return lojaRepository.save(loja);
     }
 
-
-    public String autenticarEGerarToken(String email, String senha) {
-        Optional<Loja> lojaOpt = lojaRepository.findFirstByEmailLojaAndSenhaLoja(email, senha);
-        if (lojaOpt.isPresent()) {
-            Key key = Keys.hmacShaKeyFor(secretKey.getBytes());
-            return Jwts.builder()
-                    .setSubject(String.valueOf(lojaOpt.get().getIdLoja()))
-                    .signWith(key, SignatureAlgorithm.HS256)
-                    .compact();
-        } else {
-            throw new RuntimeException("Entregador não encontrado ou senha incorreta.");
-        }
-    }
-
-    public Long decodificarIdDoToken(String token) {
-        Claims claims = Jwts.parserBuilder()
-                .setSigningKey(Keys.hmacShaKeyFor(secretKey.getBytes()))
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-        return Long.valueOf(claims.getSubject());
-    }
 
     public EnderecoLoja criarEnderecoLoja(String cep, String rua, String numero, String complemento, String bairro, String cidade, String estado) {
         EnderecoLoja enderecoLoja = new EnderecoLoja();
@@ -92,8 +82,8 @@ public class LojaService {
 
     }
 
-    public void removerLoja(String email, String senhaLoja) {
-        Optional<Loja> lojaOpt = lojaRepository.findByEmailLoja(email);
+    public void removerLoja(Long id) {
+        Optional<Loja> lojaOpt = lojaRepository.findFirstByIdLoja(id);
 
         if (lojaOpt.isPresent()) {
             lojaRepository.delete(lojaOpt.get());
@@ -108,8 +98,8 @@ public class LojaService {
         return cardapioLoja;
     }
 
-    public Loja atualizarLoja(String email, LojaDTO dto) {
-        Optional<Loja> lojaOpt = lojaRepository.findByEmailLoja(email);
+    public Loja atualizarLoja(LojaDTO dto, Long id) {
+        Optional<Loja> lojaOpt = lojaRepository.findFirstByIdLoja(id);
 
         if (lojaOpt.isEmpty()) {
             throw new RuntimeException("Loja não encontrada.");
@@ -131,26 +121,26 @@ public class LojaService {
         return lojaRepository.save(loja);
     }
 
-    public Loja adicionarItemNoCardapio(Long lojaId, ProdutoDTO produtoDTO) {
-        Loja loja = lojaRepository.findById(lojaId)
-                .orElseThrow(() -> new RuntimeException("Loja não encontrada"));
-        CardapioLoja cardapio = loja.getCardapio();
-        if (cardapio == null) {
-            cardapio = criarCardapio();
-            cardapio.setLoja(loja);
-            cardapioLojaRepository.save(cardapio);
-            loja.setCardapio(cardapio);
-        }
-        Produto produto = new Produto();
-        produto.setNome(produtoDTO.getNome());
-        produto.setDescricao(produtoDTO.getDescricao());
-        produto.setPreco(produtoDTO.getPreco());
-        produto.setCategoria(produtoDTO.getCategoria());
-        produto.setImagemUrl(produtoDTO.getImagemUrl());
-        produto.setDisponivel(produtoDTO.getDisponivel());
-        produto.setCardapioLoja(cardapio);
-        cardapio.getProdutos().add(produto);
-        cardapioLojaRepository.save(cardapio);
-        return lojaRepository.save(loja);
-    }
+//    public Loja adicionarItemNoCardapio(Long lojaId, ProdutoDTO produtoDTO) {
+//        Loja loja = lojaRepository.findById(lojaId)
+//                .orElseThrow(() -> new RuntimeException("Loja não encontrada"));
+//        CardapioLoja cardapio = loja.getCardapio();
+//        if (cardapio == null) {
+//            cardapio = criarCardapio();
+//            cardapio.setLoja(loja);
+//            cardapioLojaRepository.save(cardapio);
+//            loja.setCardapio(cardapio);
+//        }
+//        Produto produto = new Produto();
+//        produto.setNome(produtoDTO.getNome());
+//        produto.setDescricao(produtoDTO.getDescricao());
+//        produto.setPreco(produtoDTO.getPreco());
+//        produto.setCategoria(produtoDTO.getCategoria());
+//        produto.setImagemUrl(produtoDTO.getImagemUrl());
+//        produto.setDisponivel(produtoDTO.getDisponivel());
+//        produto.setCardapioLoja(cardapio);
+//        cardapio.getProdutos().add(produto);
+//        cardapioLojaRepository.save(cardapio);
+//        return lojaRepository.save(loja);
+//    }
 }

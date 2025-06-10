@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface LojaRepository extends JpaRepository<Loja, Long> {
     Optional<Loja> findFirstByEmailLojaAndSenhaLoja(String emailLoja, String senhaLoja);
     Optional<Loja> findByEmailLoja(String emailLoja);
+    Optional<Loja> findFirstByIdLoja(Long id);
 }

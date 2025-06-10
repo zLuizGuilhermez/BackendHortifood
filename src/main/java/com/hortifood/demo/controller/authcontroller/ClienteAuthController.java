@@ -1,3 +1,4 @@
+
 package com.hortifood.demo.controller.authcontroller;
 
 import com.hortifood.demo.dto.Inside.validarauthdto.ClienteValidarDTO;
@@ -8,10 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/clientAuthcontroller")
 @CrossOrigin("*")
+@Api(value = "Authenticação de Clientes", notes = "Controller para autenticação de clientes no Hortifood")
 public class ClienteAuthController {
 
     @Autowired
@@ -20,11 +25,13 @@ public class ClienteAuthController {
     @Autowired
     JwtUtil jwtUtil;
 
+    @ApiOperation(value = "Validar campos do cliente", notes = "Endpoint para validar os campos do cliente antes de realizar o login")
     @PostMapping("/validaCampoCliente")
     public ResponseEntity<?> validarCampos(@RequestBody @Valid ClienteValidarDTO clienteValidarDTO) {
         return ResponseEntity.ok().body(clienteValidarDTO);
     }
 
+    @ApiOperation(value = "Validar login do cliente", notes = "Endpoint para validar o login do cliente e gerar um token JWT")
     @PostMapping("/validarLoginCliente")
     public ResponseEntity<?> validarLogin(@RequestBody ClienteValidarDTO clienteValidarDTO) {
         try {
