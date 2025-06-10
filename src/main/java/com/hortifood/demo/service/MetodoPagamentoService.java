@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -18,7 +19,7 @@ public class MetodoPagamentoService {
     @Autowired
     MetodoPagamentoRepository metodoPagamentoRepository;
 
-    public void criarMetodoPagamento(Long id, LocalDate dataVencimento, int cvv, String numero) {
+    public boolean criarMetodoPagamento(Long id, LocalDate dataVencimento, int cvv, String numero) {
             Optional<Cliente> cliente = clientRepository.findFirstById(id);
 
             if (cliente.isPresent()) {
@@ -31,18 +32,32 @@ public class MetodoPagamentoService {
 
                 metodoPagamentoRepository.save(metodoPagamento);
 
+                return true;
             }
 
+            return false;
     }
 
-    public void removerMetodoPagamento(long id){
+    public boolean removerMetodoPagamento(Long usuarioId, Long metodoPagamentoId) {
+        Optional<MetodoPagamento> metodoPagamentoOpt = metodoPagamentoRepository.findById(metodoPagamentoId);
+        if (metodoPagamentoOpt.isEmpty()) {
+            return false;
+        }
+        MetodoPagamento metodoPagamento = metodoPagamentoOpt.get();
+        if (metodoPagamento.getCliente() == null || !metodoPagamento.getCliente().getId().equals(usuarioId)) {
+            return false;
+        }
+        metodoPagamentoRepository.delete(metodoPagamento);
+        return true;
+    }
 
-        Optional<MetodoPagamento> metodoPagamento = metodoPagamentoRepository.findById(id);
-
-        MetodoPagamento metodoPagamento2 = metodoPagamento.get();
-
-        metodoPagamentoRepository.delete(metodoPagamento2);
-
-
+    public List<MetodoPagamento> buscarMetodosPagamentoPorClienteId(long clienteId) {
+        Optional<Cliente> cliente = clientRepository.findFirstById(clienteId);
+        if (cliente.isPresent()) {
+            return cliente.get().getMetodoPagamentos();
+        } else {
+            throw new RuntimeException("Cliente não encontrado.");
+        }
     }
 }
+
