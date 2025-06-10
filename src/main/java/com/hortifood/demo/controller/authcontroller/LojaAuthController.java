@@ -29,6 +29,7 @@ public class LojaAuthController {
         return ResponseEntity.ok().body(lojaValidarDTO);
     }
 
+
     @Operation(summary = "Validar login da loja e gerar token", description = "Endpoint para validar o login da loja e gerar um token JWT")
     @PostMapping("/validarLoginLoja")
     public ResponseEntity<?> validarLogin(@RequestBody LojaValidarDTO lojaValidarDTO) {

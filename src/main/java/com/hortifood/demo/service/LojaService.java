@@ -3,7 +3,6 @@ package com.hortifood.demo.service;
 import com.hortifood.demo.dto.Inside.LojaDTO;
 import com.hortifood.demo.dto.Inside.ProdutoDTO;
 import com.hortifood.demo.entity.Produto.Produto;
-import com.hortifood.demo.entity.cliente.Cliente;
 import com.hortifood.demo.entity.entregador.Entregador.Entregador;
 import com.hortifood.demo.entity.loja.CardapioLoja;
 import com.hortifood.demo.entity.loja.EnderecoLoja;
@@ -19,6 +18,8 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import java.security.Key;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Optional;
 
 @Service
@@ -30,28 +31,19 @@ public class LojaService {
     @Autowired
     private CardapioLojaRepository cardapioLojaRepository;
 
-
     @Value("${jwt.secret}")
     private String secretKey;
 
 
-    public Loja buscarLojaPorId(Long id) {
-        Optional<Loja> cliente = lojaRepository.findFirstByIdLoja(id);
-        return cliente.orElse(null);
-    }
-    
-    public Loja autenticar(String email, String senha) {
-        Optional<Loja> clienteOpt = lojaRepository.findFirstByEmailLojaAndSenhaLoja(email, senha);
-        return clienteOpt.orElse(null);
-    }
-
-
-    public Loja criarLoja(String nome, String telefone, String email,String descricao, String senha) {
+    public Loja criarLoja(String nome, String telefone, String email, String senha, String cnpj, LocalTime horarioAbertura, LocalTime horarioFechamento) {
         Loja loja = new Loja();
 
         loja.setNomeLoja(nome);
         loja.setTelefoneLoja(telefone);
         loja.setEmailLoja(email);
+        loja.setHorarioAbertura(horarioAbertura);
+        loja.setHorarioFechamento(horarioFechamento);
+        loja.setCnpjLoja(cnpj);
         loja.setDescricaoLoja("");
         loja.setAtivo(true);
         loja.setSenhaLoja(senha);
@@ -59,6 +51,63 @@ public class LojaService {
         return lojaRepository.save(loja);
     }
 
+    public Loja buscarLojaPorId(Long id){
+        Optional<Loja> loja = lojaRepository.findById(id);
+        return loja.orElse(null);
+    }
+
+    public void removerLoja(Long idLoja) {
+        Optional<Loja> lojaOpt = lojaRepository.findById(idLoja);
+
+        if (lojaOpt.isEmpty()) {
+            throw new RuntimeException("Loja não encontrada.");
+        }
+
+        lojaRepository.deleteById(idLoja);
+    }
+
+    public Loja atualizarLoja(LojaDTO dto, Long idLoja) {
+
+        Optional<Loja> lojaOpt = lojaRepository.findById(idLoja);
+        if (lojaOpt.isEmpty()) {
+            throw new RuntimeException("Loja não encontrada.");
+        }
+
+        Loja loja = lojaOpt.get();
+        if (dto.getNomeLoja()       != null) loja.setNomeLoja(dto.getNomeLoja());
+        if (dto.getTelefoneLoja()   != null) loja.setTelefoneLoja(dto.getTelefoneLoja());
+        if (dto.getEmailLoja()      != null) loja.setEmailLoja(dto.getEmailLoja());
+        if (dto.getCnpjLoja()       != null) loja.setCnpjLoja(dto.getCnpjLoja());
+        if (dto.getSenhaLoja()      != null) loja.setSenhaLoja(dto.getSenhaLoja());
+        if (dto.getDescricaoLoja()  != null) loja.setDescricaoLoja(dto.getDescricaoLoja());
+        if (dto.getAtivo()          != null) loja.setAtivo(dto.getAtivo());
+        if (dto.getHorarioAbertura()!= null) loja.setHorarioAbertura(dto.getHorarioAbertura());
+        if (dto.getHorarioFechamento()!= null) loja.setHorarioFechamento(dto.getHorarioFechamento());
+
+        return lojaRepository.save(loja);
+    }
+
+    public String autenticarEGerarToken(String email, String senha) {
+        Optional<Loja> lojaOpt = lojaRepository.findFirstByEmailLojaAndSenhaLoja(email, senha);
+        if (lojaOpt.isPresent()) {
+            Key key = Keys.hmacShaKeyFor(secretKey.getBytes());
+            return Jwts.builder()
+                    .setSubject(String.valueOf(lojaOpt.get().getIdLoja()))
+                    .signWith(key, SignatureAlgorithm.HS256)
+                    .compact();
+        } else {
+            throw new RuntimeException("Loja não encontrada ou senha incorreta.");
+        }
+    }
+
+    public Long decodificarIdDoToken(String token) {
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(Keys.hmacShaKeyFor(secretKey.getBytes()))
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+        return Long.valueOf(claims.getSubject());
+    }
 
     public EnderecoLoja criarEnderecoLoja(String cep, String rua, String numero, String complemento, String bairro, String cidade, String estado) {
         EnderecoLoja enderecoLoja = new EnderecoLoja();
@@ -77,13 +126,14 @@ public class LojaService {
     public Loja criarLojaCompleta(Loja loja, EnderecoLoja endereco, CardapioLoja cardapioLoja) {
         loja.setEnderecoLoja(endereco);
         cardapioLoja.setLoja(loja);
+        cardapioLoja.setDataAtribuicao(cardapioLoja.getDataAtribuicao());
         cardapioLojaRepository.save(cardapioLoja);
         return lojaRepository.save(loja);
 
     }
 
-    public void removerLoja(Long id) {
-        Optional<Loja> lojaOpt = lojaRepository.findFirstByIdLoja(id);
+    public void removerLoja(String email, String senhaLoja) {
+        Optional<Loja> lojaOpt = lojaRepository.findByEmailLoja(email);
 
         if (lojaOpt.isPresent()) {
             lojaRepository.delete(lojaOpt.get());
@@ -92,14 +142,15 @@ public class LojaService {
         }
     }
 
-    public CardapioLoja criarCardapio(){
+    public CardapioLoja criarCardapio(LocalDateTime data_atribuicao){
         CardapioLoja cardapioLoja = new CardapioLoja();
+        cardapioLoja.setDataAtribuicao(data_atribuicao);
 
         return cardapioLoja;
     }
 
-    public Loja atualizarLoja(LojaDTO dto, Long id) {
-        Optional<Loja> lojaOpt = lojaRepository.findFirstByIdLoja(id);
+    public Loja atualizarLoja(LojaDTO dto, String email) {
+        Optional<Loja> lojaOpt = lojaRepository.findByEmailLoja(email);
 
         if (lojaOpt.isEmpty()) {
             throw new RuntimeException("Loja não encontrada.");
@@ -121,26 +172,33 @@ public class LojaService {
         return lojaRepository.save(loja);
     }
 
-//    public Loja adicionarItemNoCardapio(Long lojaId, ProdutoDTO produtoDTO) {
-//        Loja loja = lojaRepository.findById(lojaId)
-//                .orElseThrow(() -> new RuntimeException("Loja não encontrada"));
-//        CardapioLoja cardapio = loja.getCardapio();
-//        if (cardapio == null) {
-//            cardapio = criarCardapio();
-//            cardapio.setLoja(loja);
-//            cardapioLojaRepository.save(cardapio);
-//            loja.setCardapio(cardapio);
-//        }
-//        Produto produto = new Produto();
-//        produto.setNome(produtoDTO.getNome());
-//        produto.setDescricao(produtoDTO.getDescricao());
-//        produto.setPreco(produtoDTO.getPreco());
-//        produto.setCategoria(produtoDTO.getCategoria());
-//        produto.setImagemUrl(produtoDTO.getImagemUrl());
-//        produto.setDisponivel(produtoDTO.getDisponivel());
-//        produto.setCardapioLoja(cardapio);
-//        cardapio.getProdutos().add(produto);
-//        cardapioLojaRepository.save(cardapio);
-//        return lojaRepository.save(loja);
-//    }
+    public Loja adicionarItemNoCardapio(Long lojaId, ProdutoDTO produtoDTO) {
+        Loja loja = lojaRepository.findById(lojaId)
+                .orElseThrow(() -> new RuntimeException("Loja não encontrada"));
+        CardapioLoja cardapio = loja.getCardapio();
+        if (cardapio == null) {
+            CardapioLoja cardapioLoja = new CardapioLoja();
+            cardapio = criarCardapio(cardapioLoja.getDataAtribuicao());
+            cardapio.setLoja(loja);
+            cardapioLojaRepository.save(cardapio);
+            loja.setCardapio(cardapio);
+        }
+        Produto produto = new Produto();
+        produto.setNome(produtoDTO.getNome());
+        produto.setDescricao(produtoDTO.getDescricao());
+        produto.setPreco(produtoDTO.getPreco());
+        produto.setCategoria(produtoDTO.getTipoProduto());
+        produto.setImagemUrl(produtoDTO.getImagemUrl());
+        produto.setDisponivel(produtoDTO.isDisponivel());
+        produto.setCardapioLoja(cardapio);
+        cardapio.getProdutos().add(produto);
+        cardapioLojaRepository.save(cardapio);
+        return lojaRepository.save(loja);
+    }
+
+    public Loja autenticar(String email, String senha){
+        Optional<Loja> lojaOpt = lojaRepository.findFirstByEmailLojaAndSenhaLoja(email, senha);
+        return lojaOpt.orElse(null);
+    }
+
 }

@@ -35,7 +35,14 @@ public class SecurityConfig {
                     "/api/clientAuthcontroller/validaCampoCliente",
                     "/api/clientcontroller/criarcliente",
                     "/api/entregadorAuthcontroller/validarLoginEntregador",
-                    "/api/entregadorAuthcontroller/validarCamposEntregador"
+                    "/api/entregadorAuthcontroller/validarCamposEntregador",
+                    "/api/lojacontroller/criarLoja",
+                    "/api/lojacontroller/alterarLoja",
+                    "/api/lojacontroller/adicionarItemCardapio/{lojaId}",
+                    "/api/lojacontroller/deletarLoja",
+                    "/api/lojacontroller/acharLoja",
+                    "/api/lojaAuthcontroller/validarCampoLoja",
+                    "/api/lojaAuthcontroller/validarLoginLoja"
                 ).permitAll()
                 .anyRequest().authenticated()
             )

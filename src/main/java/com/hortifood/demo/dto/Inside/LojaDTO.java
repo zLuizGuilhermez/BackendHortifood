@@ -1,5 +1,6 @@
 package com.hortifood.demo.dto.Inside;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class LojaDTO {
@@ -36,6 +37,7 @@ public class LojaDTO {
 
     private String estado;
 
+    private LocalDateTime data_distribuicao;
 
     public LojaDTO() {
     }
@@ -168,5 +170,13 @@ public class LojaDTO {
 
     public void setHorarioFechamento(LocalTime horarioFechamento) {
         this.horarioFechamento = horarioFechamento;
+    }
+
+    public LocalDateTime getData_distribuicao() {
+        return data_distribuicao;
+    }
+
+    public void setData_distribuicao(LocalDateTime data_distribuicao) {
+        this.data_distribuicao = data_distribuicao;
     }
 }
