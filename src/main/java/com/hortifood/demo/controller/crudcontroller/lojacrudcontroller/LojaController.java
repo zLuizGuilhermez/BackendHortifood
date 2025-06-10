@@ -47,7 +47,8 @@ public class LojaController {
     }
 
     @PostMapping("/adicionarItemCardapio/{lojaId}")
-    public Loja adicionarItemCardapio(@PathVariable Long cardapioId, @RequestBody ProdutoDTO produtoDTO) {
-        return lojaService.adicionarItemNoCardapio(cardapioId, produtoDTO);
+    public boolean adicionarItemCardapio(@PathVariable Long lojaId, @RequestBody ProdutoDTO produtoDTO) {
+        lojaService.adicionarItemNoCardapio(lojaId, produtoDTO);
+        return true;
     }
 }

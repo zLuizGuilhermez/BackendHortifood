@@ -2,11 +2,14 @@ package com.hortifood.demo.dto.Inside;
 
 
 import com.hortifood.demo.entity.Produto.TipoProduto;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 
 public class ProdutoDTO {
     private String nome;
     private String descricao;
     private double preco;
+    @Enumerated(EnumType.STRING)
     private TipoProduto tipoProduto;
     private String ImagemUrl;
     private boolean Disponivel;
