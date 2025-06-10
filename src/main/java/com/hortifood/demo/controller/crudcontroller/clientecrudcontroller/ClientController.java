@@ -1,4 +1,5 @@
 package com.hortifood.demo.controller.crudcontroller.clientecrudcontroller;
+
 import com.hortifood.demo.dto.Inside.ClientDTO;
 import com.hortifood.demo.entity.cliente.Cliente;
 import com.hortifood.demo.service.ClienteService;
@@ -8,15 +9,19 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
 @RequestMapping("/api/clientcontroller")
 @CrossOrigin("*")
+@Tag(name = "Cliente", description = "Controller para operações de cliente no Hortifood")
 public class ClientController {
 
     @Autowired
     ClienteService clienteService;
 
+    @Operation(summary = "Buscar cliente autenticado", description = "Retorna os dados do cliente autenticado pelo token JWT")
     @GetMapping("/buscarcliente")
     public ResponseEntity<?> buscarCliente(@AuthenticationPrincipal UserDetails userDetails) {
         try {
@@ -48,7 +53,7 @@ public class ClientController {
     @DeleteMapping("/deletarcliente")
     public ResponseEntity<?> deletarCliente(@AuthenticationPrincipal UserDetails userDetails) {
         try {
-            Long id = ((CustomUserDetails) userDetails).get;
+            Long id = ((CustomUserDetails) userDetails).getId();
             clienteService.removerClientePorId(id);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
