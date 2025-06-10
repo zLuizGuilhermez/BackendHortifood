@@ -1,7 +1,7 @@
 package com.hortifood.demo.controller.crudcontroller;
 
 import com.hortifood.demo.dto.Inside.MetodoPagamentoDto;
-//import com.hortifood.demo.exceptions.MetodoPagamentoException;
+import com.hortifood.demo.exceptions.MetodoPagamentoException;
 import com.hortifood.demo.security.CustomUserDetails;
 import com.hortifood.demo.service.MetodoPagamentoService;
 import org.springdoc.core.service.GenericResponseService;
@@ -43,9 +43,8 @@ public class MetodoPagamentoController {
         }
     }
 
-    /*
     @DeleteMapping()
     void removerMetodoPagamento(@AuthenticationPrincipal UserDetails userDetails, @RequestBody MetodoPagamentoDto metodoPagamentoDto){
         metodoPagamentoService.removerMetodoPagamento(((CustomUserDetails) userDetails).getId(), metodoPagamentoDto.getId());
-    }*/
+    }
 }
