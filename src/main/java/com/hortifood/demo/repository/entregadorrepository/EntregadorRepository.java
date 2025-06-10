@@ -8,7 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface EntregadorRepository extends JpaRepository<Entregador, Long> {
-    Optional<Entregador> findFirstByCpfEntregador(String cpf);
     Optional<Entregador> findFirstByEmailAndSenhaEntregador(String email, String senhaEntregador);
     Optional<Entregador> findFirstByIdEntregador(Long id);
 }

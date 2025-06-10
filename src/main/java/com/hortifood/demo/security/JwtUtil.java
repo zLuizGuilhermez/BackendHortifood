@@ -21,19 +21,6 @@ public class JwtUtil {
         return extractClaim(token, Claims::getSubject);
     }
 
-    public Long extractClienteId(String token) {
-        Claims claims = extractAllClaims(token);
-        Object idObj = claims.get("clienteId");
-        if (idObj instanceof Integer) {
-            return ((Integer) idObj).longValue();
-        } else if (idObj instanceof Long) {
-            return (Long) idObj;
-        } else if (idObj != null) {
-            return Long.parseLong(idObj.toString());
-        }
-        return null;
-    }
-
     public Long extractUserId(String token) {
         Claims claims = extractAllClaims(token);
         Object idObj = claims.get("userId");

@@ -8,5 +8,4 @@ import java.util.Optional;
 
 @Repository
 public interface EntregadorEnderecoRepository extends JpaRepository<EnderecoEntregadorEntity, Long> {
-    Optional<EnderecoEntregadorEntity> findFirstByCep(String cep);
 }

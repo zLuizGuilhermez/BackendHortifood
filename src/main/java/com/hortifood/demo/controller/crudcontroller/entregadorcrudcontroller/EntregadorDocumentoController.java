@@ -1,6 +1,5 @@
 package com.hortifood.demo.controller.crudcontroller.entregadorcrudcontroller;
 
-import com.hortifood.demo.dto.Inside.entregadordto.EntregadorDocumentoDTO;
 import com.hortifood.demo.entity.entregador.DocumentoEntregador.EntregadorDocumentosEntity;
 import com.hortifood.demo.security.CustomUserDetails;
 import com.hortifood.demo.service.entregadorservice.EntregadorDocumentoService;

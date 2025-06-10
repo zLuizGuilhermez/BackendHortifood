@@ -10,7 +10,6 @@ import java.util.Optional;
 public interface ClientRepository extends JpaRepository<Cliente, Long> {
     Optional<Cliente> findFirstByEmailClienteAndSenhaCliente(String emailCliente, String senha);
     Optional<Cliente> findFirstById(Long id);
-    Optional<Cliente> findFirstByCpf(String cpf);
 
 
 }

@@ -1,7 +1,6 @@
 package com.hortifood.demo.controller.crudcontroller.entregadorcrudcontroller;
 
 import com.hortifood.demo.dto.Inside.entregadordto.EntregadorEnderecoDTO;
-import com.hortifood.demo.entity.entregador.DocumentoEntregador.EntregadorDocumentosEntity;
 import com.hortifood.demo.security.CustomUserDetails;
 import com.hortifood.demo.service.entregadorservice.EntregadorEnderecoService;
 import com.hortifood.demo.entity.entregador.Entregador.*;
@@ -11,8 +10,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import io.swagger.v3.oas.annotations.Operation;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/entregadorendereco")

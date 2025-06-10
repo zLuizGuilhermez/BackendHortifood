@@ -1,6 +1,5 @@
 package com.hortifood.demo.controller.authcontroller;
 
-import com.hortifood.demo.entity.cliente.Cliente;
 import com.hortifood.demo.entity.loja.Loja;
 import com.hortifood.demo.security.JwtUtil;
 import com.hortifood.demo.service.LojaService;

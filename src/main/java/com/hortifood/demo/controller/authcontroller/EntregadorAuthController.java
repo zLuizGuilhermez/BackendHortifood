@@ -1,6 +1,5 @@
 package com.hortifood.demo.controller.authcontroller;
 
-import com.hortifood.demo.dto.Inside.EntregadorDTO;
 import com.hortifood.demo.dto.Inside.validarauthdto.EntregadorValidarDTO;
 import com.hortifood.demo.entity.entregador.Entregador.Entregador;
 import com.hortifood.demo.service.entregadorservice.EntregadorService;

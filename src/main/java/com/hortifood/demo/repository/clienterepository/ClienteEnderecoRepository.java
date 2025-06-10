@@ -8,9 +8,4 @@ import java.util.Optional;
 
 @Repository
 public interface ClienteEnderecoRepository extends JpaRepository<ClienteEndereco, Long> {
-    Optional<ClienteEndereco> findFirstByCep(String cep);
-
-    Optional<ClienteEndereco> findAllByClienteId(Long clienteId);
-
-    Optional<ClienteEndereco> findFirstByIdEnderecoCliente(Long id);
 }

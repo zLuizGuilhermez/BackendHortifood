@@ -26,11 +26,6 @@ public class ClienteService {
     @Autowired
     ClienteEnderecoRepository clienteEnderecoRepository;
 
-    public Cliente buscarCliente(String cpf) {
-        Optional<Cliente> cliente = clientRepository.findFirstByCpf(cpf);
-        return cliente.orElse(null);
-    }
-
     public Cliente buscarClientePorId(Long id) {
         Optional<Cliente> cliente = clientRepository.findById(id);
         return cliente.orElse(null);
@@ -51,16 +46,6 @@ public class ClienteService {
         return clienteOpt.orElse(null);
     }
 
-    public Long decodificarIdDoToken(String token) {
-        Claims claims = Jwts.parserBuilder()
-            .setSigningKey(Keys.hmacShaKeyFor(secretKey.getBytes()))
-            .build()
-            .parseClaimsJws(token)
-            .getBody();
-        return Long.valueOf(claims.getSubject());
-    }
-
-
     public void criarClienteFinal(Cliente cliente, ClienteEndereco clienteEndereco) {
         clienteEndereco.setCliente(cliente);
         clientRepository.save(cliente);
@@ -78,34 +63,6 @@ public class ClienteService {
         return clienteEndereco;
     }
 
-    public void removerCliente(String email, String senha) {
-        Optional<Cliente> cliente = clientRepository.findFirstByEmailClienteAndSenhaCliente(email, senha);
-        cliente.ifPresent(clientRepository::delete);
-    }
-
-    public Cliente alterarInfoCliente(String email, String senha, ClientDTO dto) {
-        Optional<Cliente> clienteOpt = clientRepository.findFirstByEmailClienteAndSenhaCliente(email, senha);
-        if (clienteOpt.isEmpty()) {
-            throw new RuntimeException("Cliente não encontrado com email e senha fornecidos.");
-        }
-        Cliente cliente = clienteOpt.get();
-        atualizarCampo(dto.getNome(), cliente::setNome);
-        atualizarCampo(dto.getTelefone(), cliente::setTelefone);
-        atualizarCampo(dto.getEmailCliente(), cliente::setEmailCliente);
-        atualizarCampo(dto.getSenhaCliente(), cliente::setSenhaCliente);
-
-        if (!cliente.getClienteEndereco().isEmpty()) {
-            ClienteEndereco endereco = cliente.getClienteEndereco().get(0);
-            atualizarCampo(dto.getEstado(), endereco::setEstado);
-            atualizarCampo(dto.getCidade(), endereco::setCidade);
-            atualizarCampo(dto.getBairro(), endereco::setBairro);
-            atualizarCampo(dto.getLogradouro(), endereco::setLogradouro);
-            atualizarCampo(dto.getCasa(), endereco::setCasa);
-            atualizarCampo(dto.getCep(), endereco::setCep);
-            clienteEnderecoRepository.save(endereco);
-        }
-        return clientRepository.save(cliente);
-    }
 
     public void removerClientePorId(Long id) {
         Optional<Cliente> cliente = clientRepository.findById(id);

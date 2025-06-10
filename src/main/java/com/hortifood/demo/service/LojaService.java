@@ -110,15 +110,6 @@ public class LojaService {
 
     }
 
-    public void removerLoja(String email, String senhaLoja) {
-        Optional<Loja> lojaOpt = lojaRepository.findByEmailLoja(email);
-
-        if (lojaOpt.isPresent()) {
-            lojaRepository.delete(lojaOpt.get());
-        } else {
-            throw new RuntimeException("Loja não encontrada com esse email.");
-        }
-    }
 
     public CardapioLoja criarCardapio(LocalDateTime data_atribuicao){
         CardapioLoja cardapioLoja = new CardapioLoja();
@@ -127,28 +118,6 @@ public class LojaService {
         return cardapioLoja;
     }
 
-    public Loja atualizarLoja(LojaDTO dto, String email) {
-        Optional<Loja> lojaOpt = lojaRepository.findByEmailLoja(email);
-
-        if (lojaOpt.isEmpty()) {
-            throw new RuntimeException("Loja não encontrada.");
-        }
-
-        Loja loja = lojaOpt.get();
-
-        if (dto.getNomeLoja() != null) loja.setNomeLoja(dto.getNomeLoja());
-        if (dto.getTelefoneLoja() != null) loja.setTelefoneLoja(dto.getTelefoneLoja());
-        if (dto.getEmailLoja() != null) loja.setEmailLoja(dto.getEmailLoja());
-        if (dto.getCnpjLoja() != null) loja.setCnpjLoja(dto.getCnpjLoja());
-        if (dto.getSenhaLoja() != null) loja.setSenhaLoja(dto.getSenhaLoja());
-        if (dto.getDescricaoLoja() != null) loja.setDescricaoLoja(dto.getDescricaoLoja());
-        if (dto.getAtivo() != null) loja.setAtivo(dto.getAtivo());
-        if (dto.getHorarioAbertura() != null) loja.setHorarioAbertura(dto.getHorarioAbertura());
-        if (dto.getHorarioFechamento() != null) loja.setHorarioFechamento(dto.getHorarioFechamento());
-
-
-        return lojaRepository.save(loja);
-    }
 
     public Loja adicionarItemNoCardapio(Long lojaId, ProdutoDTO produtoDTO) {
         Loja loja = lojaRepository.findById(lojaId)

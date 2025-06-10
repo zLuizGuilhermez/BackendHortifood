@@ -63,13 +63,6 @@ public class EntregadorService {
     }
 
 
-    public void salvarEnderecoEntregador(Entregador entregador, EnderecoEntregadorEntity endereco) {
-        endereco.setEntregador(entregador);
-        entregador.setEnderecoEntregadorEntity(endereco);
-        entregadorRepository.save(entregador);
-        enderecoRepository.save(endereco);
-    }
-
     public EnderecoEntregadorEntity criarEndereco(String estado, String cidade, String bairro, String logradouro, String casa, String cep) {
         EnderecoEntregadorEntity endereco = new EnderecoEntregadorEntity();
         endereco.setEstado(estado);
@@ -89,14 +82,6 @@ public class EntregadorService {
         return entregadorDocumentosEntity;
     }
 
-    public void removerEntregadorPorCpf(String cpf) {
-        Optional<Entregador> entregadorOpt = entregadorRepository.findFirstByCpfEntregador(cpf);
-        if (entregadorOpt.isPresent()){
-            Entregador entregador = entregadorOpt.get();
-            entregadorRepository.delete(entregador);
-        }
-    }
-
     public void removerEntregadorPorId(Long id) {
         Optional<Entregador> entregadorOpt = entregadorRepository.findById(id);
         if (entregadorOpt.isPresent()) {
@@ -104,21 +89,6 @@ public class EntregadorService {
         } else {
             throw new RuntimeException("Entregador não encontrado");
         }
-    }
-
-    public Entregador atualizarEntregador(String cpf, String novoNome, LocalDate novaDataNascimento) {
-        Optional<Entregador> entregadorOpt = entregadorRepository.findFirstByCpfEntregador(cpf);
-
-        if (entregadorOpt.isEmpty()) {
-            throw new RuntimeException("Entregador não encontrado com o email fornecido.");
-        }
-
-        Entregador entregador = entregadorOpt.get();
-
-        if (novoNome != null) entregador.setNomeEntregador(novoNome);
-        if (novaDataNascimento != null) entregador.setDataNascimento(novaDataNascimento);
-
-        return entregadorRepository.save(entregador);
     }
 
     public void atualizarEntregadorPorId(Long entregadorId, EntregadorDTO entregadorDTO) {
