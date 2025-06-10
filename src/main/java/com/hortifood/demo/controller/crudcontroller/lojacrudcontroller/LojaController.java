@@ -5,12 +5,15 @@ import com.hortifood.demo.dto.Inside.ProdutoDTO;
 import com.hortifood.demo.entity.loja.Loja;
 import com.hortifood.demo.security.CustomUserDetails;
 import com.hortifood.demo.service.LojaService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+@Tag(name = "Loja", description = "Operações relacionadas à loja")
 @RestController
 @RequestMapping("/api/lojacontroller")
 @CrossOrigin("*")
@@ -19,11 +22,13 @@ public class LojaController {
     @Autowired
     LojaService lojaService;
 
+    @Operation(summary = "Buscar loja do usuário", description = "Busca a loja associada ao usuário autenticado.")
     @GetMapping("/acharLoja")
     public Loja acharLoja(@AuthenticationPrincipal UserDetails userDetails){
         return lojaService.buscarLojaPorId(((CustomUserDetails) userDetails).getId());
     }
 
+    @Operation(summary = "Criar loja", description = "Cria uma nova loja com os dados informados.")
     @PostMapping("/criarLoja")
     public ResponseEntity<?> criarLoja(@RequestBody LojaDTO lojaDTO) {
         try{
@@ -36,16 +41,19 @@ public class LojaController {
 
     }
 
+    @Operation(summary = "Deletar loja", description = "Remove a loja do usuário autenticado.")
     @DeleteMapping("/deletarLoja")
     void deletarLoja(@AuthenticationPrincipal UserDetails userDetails) {
         lojaService.removerLoja(((CustomUserDetails) userDetails).getId());
     }
 
+    @Operation(summary = "Alterar loja", description = "Altera os dados da loja do usuário autenticado.")
     @PutMapping("/alterarLoja")
     void alterarLoja(@RequestBody LojaDTO lojaDTO, @AuthenticationPrincipal UserDetails userDetails) {
         lojaService.atualizarLoja(lojaDTO, ((CustomUserDetails) userDetails).getId());
     }
 
+    @Operation(summary = "Adicionar item ao cardápio", description = "Adiciona um produto ao cardápio da loja.")
     @PostMapping("/adicionarItemCardapio/{lojaId}")
     public Loja adicionarItemCardapio(@PathVariable Long cardapioId, @RequestBody ProdutoDTO produtoDTO) {
         return lojaService.adicionarItemNoCardapio(cardapioId, produtoDTO);

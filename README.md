@@ -24,11 +24,15 @@ Em teoria o cliente não precisa criar otoken, o token é gerado quando o client
 - 2. Depois acessar o método `validarLogin()`, passando o email e a senha do cliente obedecendo os parametros: Considerando os dois decorators sobre a senha
 ```java
 private String emailCliente;
-
-@NotBlank(message = "Senha é obrigatória")
-@Size(min = 6, message = "A senha deve ter pelo menos 6 caracteres")
 private String senhaCliente; 
 ```
 - 3. Após isso poderá chamar qualquer um dos metódos CRUD que envolvam o cliente.
 
 - __O fluxo está disponivel para teste para as três classes principais, loja, cliente e entregador.__
+
+## Documentação da API
+
+A documentação completa da API (Swagger/OpenAPI) está em:
+
+[https://app.swaggerhub.com/apis/hortifood/Hortifood2/1.0.0](https://app.swaggerhub.com/apis/hortifood/Hortifood2/1.0.0)
+
