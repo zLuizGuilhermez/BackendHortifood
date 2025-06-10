@@ -3,20 +3,15 @@ package com.hortifood.demo.service;
 import com.hortifood.demo.dto.Inside.LojaDTO;
 import com.hortifood.demo.dto.Inside.ProdutoDTO;
 import com.hortifood.demo.entity.Produto.Produto;
-import com.hortifood.demo.entity.entregador.Entregador.Entregador;
 import com.hortifood.demo.entity.loja.CardapioLoja;
 import com.hortifood.demo.entity.loja.EnderecoLoja;
 import com.hortifood.demo.entity.loja.Loja;
 import com.hortifood.demo.repository.lojarepository.CardapioLojaRepository;
 import com.hortifood.demo.repository.lojarepository.LojaRepository;
-import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
-import java.security.Key;
+import com.hortifood.demo.repository.lojarepository.EnderecoLojaRepository;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -30,6 +25,9 @@ public class LojaService {
 
     @Autowired
     private CardapioLojaRepository cardapioLojaRepository;
+
+    @Autowired
+    private EnderecoLojaRepository enderecoLojaRepository;
 
     @Value("${jwt.secret}")
     private String secretKey;
@@ -50,7 +48,6 @@ public class LojaService {
 
         return lojaRepository.save(loja);
     }
-
     public Loja buscarLojaPorId(Long id){
         Optional<Loja> loja = lojaRepository.findById(id);
         return loja.orElse(null);
@@ -98,6 +95,8 @@ public class LojaService {
         enderecoLoja.setBairro(bairro);
         enderecoLoja.setCidade(cidade);
         enderecoLoja.setEstado(estado);
+
+        enderecoLojaRepository.save(enderecoLoja);
 
         return enderecoLoja;
     }

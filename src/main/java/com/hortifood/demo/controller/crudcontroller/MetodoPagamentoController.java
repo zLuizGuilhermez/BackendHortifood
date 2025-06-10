@@ -1,6 +1,7 @@
 package com.hortifood.demo.controller.crudcontroller;
 
 import com.hortifood.demo.dto.Inside.MetodoPagamentoDto;
+import com.hortifood.demo.security.CustomUserDetails;
 import com.hortifood.demo.service.MetodoPagamentoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -16,15 +17,15 @@ public class MetodoPagamentoController {
     @Autowired
     MetodoPagamentoService metodoPagamentoService;
 
-    @PostMapping
-    void criarMetodoPagamento(@AuthenticationPrincipal UserDetails userDetails, @RequestBody MetodoPagamentoDto metodoPagamentoDto){
-        // Aqui você pode acessar o usuário autenticado via userDetails
-        metodoPagamentoService.criarMetodoPagamento(userDetails, metodoPagamentoDto.getEmail(),metodoPagamentoDto.getSenha(),metodoPagamentoDto.getNumero(),metodoPagamentoDto.getDataVencimento(),metodoPagamentoDto.getCvv());
-    }
+//    @PostMapping
+//    void criarMetodoPagamento(@AuthenticationPrincipal UserDetails userDetails, @RequestBody MetodoPagamentoDto metodoPagamentoDto){
+//        // Aqui você pode acessar o usuário autenticado via userDetails
+//        metodoPagamentoService.criarMetodoPagamento(((CustomUserDetails) userDetails).getId(), metodoPagamentoDto.getEmail(),metodoPagamentoDto.getSenha(),metodoPagamentoDto.getNumero(),metodoPagamentoDto.getDataVencimento(),metodoPagamentoDto.getCvv());
+//    }
 
-    @DeleteMapping()
-    void removerMetodoPagamento(@AuthenticationPrincipal UserDetails userDetails, @RequestBody MetodoPagamentoDto metodoPagamentoDto){
-        // Aqui você pode acessar o usuário autenticado via userDetails
-        metodoPagamentoService.removerMetodoPagamento(userDetails, metodoPagamentoDto.getId());
-    }
+//    @DeleteMapping()
+//    void removerMetodoPagamento(@AuthenticationPrincipal UserDetails userDetails, @RequestBody MetodoPagamentoDto metodoPagamentoDto){
+//        // Aqui você pode acessar o usuário autenticado via userDetails
+//        metodoPagamentoService.removerMetodoPagamento(((CustomUserDetails) userDetails).getId(), metodoPagamentoDto.getId());
+//    }
 }
