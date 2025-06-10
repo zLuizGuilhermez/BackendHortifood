@@ -1,5 +1,6 @@
 package com.hortifood.demo.entity.loja;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 
@@ -24,6 +25,10 @@ public class EnderecoLoja {
     private String cidade;
 
     private String estado;
+
+    @OneToOne(mappedBy = "enderecoLoja", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Loja loja;
 
     public EnderecoLoja() {
     }
@@ -90,5 +95,13 @@ public class EnderecoLoja {
 
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+
+    public Loja getLoja() {
+        return loja;
+    }
+
+    public void setLoja(Loja loja) {
+        this.loja = loja;
     }
 }

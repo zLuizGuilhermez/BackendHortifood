@@ -10,6 +10,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
+import io.swagger.v3.oas.annotations.Operation;
 
 import java.util.List;
 
@@ -21,12 +22,14 @@ public class EntregadorEnderecoController {
     @Autowired
     private EntregadorEnderecoService entregadorEnderecoService;
 
+    @Operation(summary = "Buscar endereço do entregador", description = "Busca um endereço específico do entregador autenticado pelo ID do endereço.")
     @GetMapping("/{id}")
     public EnderecoEntregadorEntity buscarEndereco(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
         Long entregadorId = ((CustomUserDetails) userDetails).getId();
         return entregadorEnderecoService.buscarEnderecoPorIdEEntregador(id, entregadorId);
     }
 
+    @Operation(summary = "Atualizar endereço do entregador", description = "Atualiza um endereço específico do entregador autenticado pelo ID do endereço.")
     @PutMapping("/atualizar/{id}")
     public ResponseEntity<?> atualizarEndereco(@PathVariable Long id, @RequestBody EntregadorEnderecoDTO enderecoDTO, @AuthenticationPrincipal UserDetails userDetails) {
         try {
@@ -38,6 +41,7 @@ public class EntregadorEnderecoController {
         }
     }
 
+    @Operation(summary = "Deletar endereço do entregador", description = "Deleta um endereço específico do entregador autenticado pelo ID do endereço.")
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<?> deletarEndereco(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
         try {
@@ -49,6 +53,7 @@ public class EntregadorEnderecoController {
         }
     }
 
+    @Operation(summary = "Listar endereços do entregador", description = "Lista todos os endereços do entregador autenticado.")
     @GetMapping("/meus-documentos")
     public ResponseEntity<?> listarEndereco(@AuthenticationPrincipal UserDetails userDetails) {
         try {
@@ -62,3 +67,4 @@ public class EntregadorEnderecoController {
     }
 
 }
+

@@ -8,6 +8,12 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 @RestController
 @RequestMapping("api/entregadorcontroller")
@@ -17,6 +23,7 @@ public class EntregadorController {
     @Autowired
     EntregadorService entregadorService;
 
+    @Operation(summary = "Cria um novo entregador", description = "Endpoint para criar um novo entregador no sistema.")
     @PostMapping("/criarentregador")
     public ResponseEntity<?> criarEntregador(@RequestBody EntregadorDTO entregadorDTO) {
         try {
@@ -34,6 +41,7 @@ public class EntregadorController {
         }
     }
 
+    @Operation(summary = "Deleta o entregador autenticado", description = "Endpoint para deletar o entregador atualmente autenticado.")
     @DeleteMapping("/deletarentregador")
     public ResponseEntity<?> deletarEntregador(@AuthenticationPrincipal UserDetails userDetails) {
         try {
@@ -45,6 +53,7 @@ public class EntregadorController {
         }
     }
 
+    @Operation(summary = "Atualiza os dados do entregador autenticado", description = "Endpoint para atualizar os dados do entregador atualmente autenticado.")
     @PutMapping("/alterarentregador")
     public ResponseEntity<?> alterarEntregador(@AuthenticationPrincipal UserDetails userDetails, @RequestBody EntregadorDTO entregadorDTO) {
         try {

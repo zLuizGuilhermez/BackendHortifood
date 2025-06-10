@@ -9,6 +9,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
+import io.swagger.v3.oas.annotations.Operation;
 
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class EntregadorDocumentoController {
     @Autowired
     private EntregadorDocumentoService entregadorDocumentoService;
 
+    @Operation(summary = "Buscar documento do entregador", description = "Busca um documento específico do entregador autenticado pelo ID do documento.")
     @GetMapping("/{id}")
     public ResponseEntity<?> buscarDocumento(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
         try {
@@ -31,6 +33,7 @@ public class EntregadorDocumentoController {
         }
     }
 
+    @Operation(summary = "Deletar documento do entregador", description = "Deleta um documento específico do entregador autenticado pelo ID do documento.")
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<?> deletarDocumento(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
         try {
@@ -42,6 +45,7 @@ public class EntregadorDocumentoController {
         }
     }
 
+    @Operation(summary = "Listar documentos do entregador", description = "Lista todos os documentos do entregador autenticado.")
     @GetMapping("/meus-documentos")
     public ResponseEntity<?> listarDocumentos(@AuthenticationPrincipal UserDetails userDetails) {
         try {

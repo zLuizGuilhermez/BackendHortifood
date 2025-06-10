@@ -30,7 +30,8 @@ public class Loja {
 
     private LocalTime horarioFechamento;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "endereco_loja_id")
     private EnderecoLoja enderecoLoja;
 
     @OneToOne(mappedBy = "loja", cascade = CascadeType.ALL, fetch = FetchType.EAGER)

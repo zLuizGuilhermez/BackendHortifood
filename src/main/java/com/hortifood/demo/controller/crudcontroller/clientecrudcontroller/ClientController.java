@@ -35,6 +35,8 @@ public class ClientController {
         }
     }
 
+
+    @Operation(summary = "criar cliente completo (cliente e endereço)", description = "Cria um cliente completo com informações pessoais e endereço")
     @PostMapping("/criarcliente")
     public ResponseEntity<?> criarCliente(@RequestBody ClientDTO clientDto) {
         try {
@@ -50,6 +52,7 @@ public class ClientController {
         }
     }
 
+    @Operation(summary = "deleta cliente autenticado", description = "Deleta o cliente autenticado pelo token JWT")
     @DeleteMapping("/deletarcliente")
     public ResponseEntity<?> deletarCliente(@AuthenticationPrincipal UserDetails userDetails) {
         try {
@@ -61,6 +64,7 @@ public class ClientController {
         }
     }
 
+    @Operation(summary = "atualiza os dados do cliente completo (cliente e endereco)", description = "atualiza os dados completos do cliente (cliente e endereco) autenticado pelo token JWT")
     @PutMapping("/alterarcliente")
     public ResponseEntity<?> atualizarCliente(@AuthenticationPrincipal UserDetails userDetails, @RequestBody ClientDTO clientDTO) {
         try {

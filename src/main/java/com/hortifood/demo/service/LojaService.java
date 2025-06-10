@@ -69,6 +69,7 @@ public class LojaService {
     public Loja atualizarLoja(LojaDTO dto, Long idLoja) {
 
         Optional<Loja> lojaOpt = lojaRepository.findById(idLoja);
+
         if (lojaOpt.isEmpty()) {
             throw new RuntimeException("Loja não encontrada.");
         }
@@ -85,28 +86,6 @@ public class LojaService {
         if (dto.getHorarioFechamento()!= null) loja.setHorarioFechamento(dto.getHorarioFechamento());
 
         return lojaRepository.save(loja);
-    }
-
-    public String autenticarEGerarToken(String email, String senha) {
-        Optional<Loja> lojaOpt = lojaRepository.findFirstByEmailLojaAndSenhaLoja(email, senha);
-        if (lojaOpt.isPresent()) {
-            Key key = Keys.hmacShaKeyFor(secretKey.getBytes());
-            return Jwts.builder()
-                    .setSubject(String.valueOf(lojaOpt.get().getIdLoja()))
-                    .signWith(key, SignatureAlgorithm.HS256)
-                    .compact();
-        } else {
-            throw new RuntimeException("Loja não encontrada ou senha incorreta.");
-        }
-    }
-
-    public Long decodificarIdDoToken(String token) {
-        Claims claims = Jwts.parserBuilder()
-                .setSigningKey(Keys.hmacShaKeyFor(secretKey.getBytes()))
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-        return Long.valueOf(claims.getSubject());
     }
 
     public EnderecoLoja criarEnderecoLoja(String cep, String rua, String numero, String complemento, String bairro, String cidade, String estado) {
