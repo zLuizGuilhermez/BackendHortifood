@@ -67,23 +67,46 @@ public class LojaService {
     }
 
     public Loja atualizarLoja(LojaDTO dto, Long idLoja) {
-
         Optional<Loja> lojaOpt = lojaRepository.findById(idLoja);
         if (lojaOpt.isEmpty()) {
             throw new RuntimeException("Loja não encontrada.");
         }
 
         Loja loja = lojaOpt.get();
-        if (dto.getNomeLoja()       != null) loja.setNomeLoja(dto.getNomeLoja());
-        if (dto.getTelefoneLoja()   != null) loja.setTelefoneLoja(dto.getTelefoneLoja());
-        if (dto.getEmailLoja()      != null) loja.setEmailLoja(dto.getEmailLoja());
-        if (dto.getCnpjLoja()       != null) loja.setCnpjLoja(dto.getCnpjLoja());
-        if (dto.getSenhaLoja()      != null) loja.setSenhaLoja(dto.getSenhaLoja());
-        if (dto.getDescricaoLoja()  != null) loja.setDescricaoLoja(dto.getDescricaoLoja());
-        if (dto.getAtivo()          != null) loja.setAtivo(dto.getAtivo());
-        if (dto.getHorarioAbertura()!= null) loja.setHorarioAbertura(dto.getHorarioAbertura());
-        if (dto.getHorarioFechamento()!= null) loja.setHorarioFechamento(dto.getHorarioFechamento());
 
+        loja.setAtivo(true);
+        loja.setNomeLoja(dto.getNomeLoja());
+        loja.setTelefoneLoja(dto.getTelefoneLoja());
+        loja.setEmailLoja(dto.getEmailLoja());
+        loja.setCnpjLoja(dto.getCnpjLoja());
+        loja.setDescricaoLoja("");
+        loja.setSenhaLoja(dto.getSenhaLoja());
+        loja.setDescricaoLoja(dto.getDescricaoLoja());
+        loja.setAtivo(dto.getAtivo());
+        loja.setHorarioAbertura(dto.getHorarioAbertura());
+        loja.setHorarioFechamento(dto.getHorarioFechamento());
+
+        EnderecoLoja endereco = loja.getEnderecoLoja();
+        if (endereco == null) {
+            endereco = new EnderecoLoja();
+        }
+        endereco.setBairro(dto.getBairro());
+        endereco.setCep(dto.getCep());
+        endereco.setComplemento(dto.getComplemento());
+        endereco.setEstado(dto.getEstado());
+        endereco.setRua(dto.getRua());
+        endereco.setNumero(dto.getNumero());
+        loja.setEnderecoLoja(endereco);
+
+        CardapioLoja cardapio = loja.getCardapio();
+        if (cardapio == null) {
+            cardapio = new CardapioLoja();
+        }
+        cardapio.setDataAtribuicao(dto.getData_distribuicao());
+        loja.setCardapio(cardapio);
+
+        // Salva primeiro o cardápio (se necessário) e depois a loja
+        cardapioLojaRepository.save(cardapio);
         return lojaRepository.save(loja);
     }
 
