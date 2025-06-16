@@ -19,6 +19,7 @@ public class Loja {
 
     private String cnpjLoja;
 
+    @Column(unique = true, nullable = false)
     private String emailLoja;
 
     private String senhaLoja;

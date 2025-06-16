@@ -28,7 +28,7 @@ public class ClientController {
             if (userDetails == null || !(userDetails instanceof CustomUserDetails)) {
                 return ResponseEntity.status(401).body("Usuário não autenticado ou token inválido");
             }
-            Cliente cliente = clienteService.buscarClientePorId(((CustomUserDetails) userDetails).getId());
+            Cliente cliente = clienteService.buscarClientePorEmail(((CustomUserDetails) userDetails).getUsername());
             return ResponseEntity.ok(cliente);
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Erro ao buscar cliente: " + e.getMessage());

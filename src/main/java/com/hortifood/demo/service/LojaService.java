@@ -148,4 +148,8 @@ public class LojaService {
         return lojaOpt.orElse(null);
     }
 
+    public Loja BuscarLojaPorEmail(String email){
+        Optional<Loja> loja = lojaRepository.findFirstByEmailLoja(email);
+        return loja.orElse(null);
+    }
 }

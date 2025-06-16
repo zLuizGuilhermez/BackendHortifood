@@ -15,6 +15,7 @@ public class Cliente {
     private String nome;
     private String telefone;
     private String cpf;
+    @Column(unique = true, nullable = false)
     private String emailCliente;
     private String senhaCliente;
 

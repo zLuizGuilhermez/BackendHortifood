@@ -35,15 +35,19 @@ public class EntregadorService {
     @Autowired
     private EntregadorDocumentoRepository entregadorDocumentoRepository;
 
-    public Entregador criarEntregadorParcial(String nome, String cpf,String senha, String email, LocalDate nascimento) {
+    public Entregador criarEntregadorParcial(String nome, String cpf, String senha, String email, LocalDate nascimento) {
         Entregador entregador = new Entregador();
+
         entregador.setNomeEntregador(nome);
         entregador.setCpfEntregador(cpf);
+        entregador.setSenhaEntregador(senha);
         entregador.setEmail(email);
         entregador.setDataNascimento(nascimento);
+
         entregador.setStatus(1);
         entregador.setTotalEntregas(0);
-        entregador.setSenhaEntregador(senha);
+
+        System.out.println("CPF recebido: " + cpf);
 
         return entregadorRepository.save(entregador);
     }
@@ -53,7 +57,7 @@ public class EntregadorService {
         return entregadorOpt.orElse(null);
     }
 
-    public void criarEntregadorFinal(Entregador entregador, EnderecoEntregadorEntity enderecoEntregadorEntity, EntregadorDocumentosEntity entregadorDocumentosEntity){
+    public void criarEntregadorFinal(Entregador entregador, EnderecoEntregadorEntity enderecoEntregadorEntity, EntregadorDocumentosEntity entregadorDocumentosEntity) {
         enderecoEntregadorEntity.setEntregador(entregador);
         entregadorDocumentosEntity.setEntregador(entregador);
 
@@ -74,7 +78,7 @@ public class EntregadorService {
         return endereco;
     }
 
-    public EntregadorDocumentosEntity criarDoc(TipoDocumento tipoDocumento, LocalDate data){
+    public EntregadorDocumentosEntity criarDoc(TipoDocumento tipoDocumento, LocalDate data) {
         EntregadorDocumentosEntity entregadorDocumentosEntity = new EntregadorDocumentosEntity();
         entregadorDocumentosEntity.setTipoDocumento(tipoDocumento);
         entregadorDocumentosEntity.setDataEnvio(data);
@@ -106,5 +110,10 @@ public class EntregadorService {
         } else {
             throw new RuntimeException("Entregador não encontrado");
         }
+    }
+
+    public Entregador BuscarEntregadorPorEmail(String email) {
+        Optional<Entregador> entregador = entregadorRepository.findFirstByEmail(email);
+        return entregador.orElse(null);
     }
 }

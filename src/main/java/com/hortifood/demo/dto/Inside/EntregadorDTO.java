@@ -2,9 +2,6 @@ package com.hortifood.demo.dto.Inside;
 
 import com.hortifood.demo.entity.entregador.DocumentoEntregador.TipoDocumento;
 import com.hortifood.demo.entity.entregador.Entregador.TipoVeiculo;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import lombok.Getter;
 
 import java.time.LocalDate;
 

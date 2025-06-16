@@ -42,7 +42,11 @@ public class SecurityConfig {
                     "/api/lojacontroller/deletarLoja",
                     "/api/lojacontroller/acharLoja",
                     "/api/lojaAuthcontroller/validarCampoLoja",
-                    "/api/lojaAuthcontroller/validarLoginLoja"
+                    "/api/lojaAuthcontroller/validarLoginLoja",
+                    "/api/entregadorcontroller/criarentregador",
+                    "/api/entregadorcontroller/deletarentregador",
+                    "/api/entregadorcontroller/buscarentregador",
+                    "/api/entregadorcontroller/alterarentregador"
                 ).permitAll()
                 .anyRequest().authenticated()
             )

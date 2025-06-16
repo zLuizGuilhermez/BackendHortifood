@@ -5,14 +5,10 @@ import com.hortifood.demo.entity.cliente.Cliente;
 import com.hortifood.demo.entity.cliente.ClienteEndereco;
 import com.hortifood.demo.repository.clienterepository.ClientRepository;
 import com.hortifood.demo.repository.clienterepository.ClienteEnderecoRepository;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import java.security.Key;
+
 import java.util.Optional;
 
 @Service
@@ -26,8 +22,8 @@ public class ClienteService {
     @Autowired
     ClienteEnderecoRepository clienteEnderecoRepository;
 
-    public Cliente buscarClientePorId(Long id) {
-        Optional<Cliente> cliente = clientRepository.findById(id);
+    public Cliente buscarClientePorEmail(String email) {
+        Optional<Cliente> cliente = clientRepository.findFirstByEmailCliente(email);
         return cliente.orElse(null);
     }
 
@@ -81,7 +77,7 @@ public class ClienteService {
         atualizarCampo(dto.getSenhaCliente(), cliente::setSenhaCliente);
 
         if (!cliente.getClienteEndereco().isEmpty()) {
-            ClienteEndereco endereco = cliente.getClienteEndereco().get(0);
+            ClienteEndereco endereco = cliente.getClienteEndereco().getFirst();
             atualizarCampo(dto.getEstado(), endereco::setEstado);
             atualizarCampo(dto.getCidade(), endereco::setCidade);
             atualizarCampo(dto.getBairro(), endereco::setBairro);

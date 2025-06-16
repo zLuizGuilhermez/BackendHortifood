@@ -24,8 +24,16 @@ public class LojaController {
 
     @Operation(summary = "Buscar loja do usuário", description = "Busca a loja associada ao usuário autenticado.")
     @GetMapping("/acharLoja")
-    public Loja acharLoja(@AuthenticationPrincipal UserDetails userDetails){
-        return lojaService.buscarLojaPorId(((CustomUserDetails) userDetails).getId());
+    public ResponseEntity<?> acharLoja(@AuthenticationPrincipal UserDetails userDetails){
+        try {
+            if(!(userDetails instanceof CustomUserDetails)) {
+                return ResponseEntity.status(401).body("Loja não autenticada");
+            }
+            Loja loja = lojaService.BuscarLojaPorEmail((userDetails).getUsername());
+            return ResponseEntity.ok(loja);
+        } catch (Exception e){
+            return ResponseEntity.status(500).body("Erro ao buscar a loja");
+        }
     }
 
     @Operation(summary = "Criar loja", description = "Cria uma nova loja com os dados informados.")

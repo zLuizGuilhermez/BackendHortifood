@@ -1,4 +1,5 @@
 package com.hortifood.demo.entity.entregador.Entregador;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.hortifood.demo.entity.entregador.DocumentoEntregador.EntregadorDocumentosEntity;
 
 import jakarta.persistence.*;
@@ -8,7 +9,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Table(name = "Entregador")
+@Table(name = "entregador")
 public class Entregador {
 
     @Id
@@ -21,18 +22,19 @@ public class Entregador {
     private String cpfEntregador;
     @Column(nullable = false)
     private String senhaEntregador;
-    @Column(nullable = false)
+    @Column(unique = true, nullable = false)
     private String email;
     private LocalDate dataNascimento;
     @Enumerated(EnumType.STRING)
     private TipoVeiculo tipoVeiculo;
     private long totalEntregas;
 
-    @OneToOne()
+    @OneToOne
     @JoinColumn(name = "idEnderecoEntregador")
     private EnderecoEntregadorEntity enderecoEntregadorEntity;
 
-    @OneToMany(mappedBy = "entregador",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "entregador",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<EntregadorDocumentosEntity> documentos;
 
     public Entregador() {
