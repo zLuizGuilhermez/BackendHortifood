@@ -31,7 +31,8 @@ public class EntregadorController {
                             entregadorDTO.getCpfEntregador(),
                             entregadorDTO.getSenhaEntregador(),
                             entregadorDTO.getEmail(),
-                            entregadorDTO.getDataNascimento()),
+                            entregadorDTO.getDataNascimento(),
+                            entregadorDTO.getTipoVeiculo()),
                     entregadorService.criarEndereco(
                             entregadorDTO.getEstado(),
                             entregadorDTO.getCidade(),
@@ -41,7 +42,8 @@ public class EntregadorController {
                             entregadorDTO.getCep()),
                     entregadorService.criarDoc(
                             entregadorDTO.getTipoDocumento(),
-                            entregadorDTO.getDataEnvio())
+                            entregadorDTO.getDataEnvio(),
+                            entregadorDTO.getStatusValidacao())
             );
             return ResponseEntity.ok(true);
         } catch (Exception e) {

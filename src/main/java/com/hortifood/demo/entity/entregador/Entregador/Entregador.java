@@ -30,7 +30,7 @@ public class Entregador {
     private long totalEntregas;
 
     @OneToOne
-    @JoinColumn(name = "idEnderecoEntregador")
+    @JoinColumn(name = "entregador_endereco_id")
     private EnderecoEntregadorEntity enderecoEntregadorEntity;
 
     @OneToMany(mappedBy = "entregador",cascade = CascadeType.ALL, fetch = FetchType.LAZY)

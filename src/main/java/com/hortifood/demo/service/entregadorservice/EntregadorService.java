@@ -5,6 +5,7 @@ import com.hortifood.demo.entity.entregador.DocumentoEntregador.EntregadorDocume
 import com.hortifood.demo.entity.entregador.DocumentoEntregador.TipoDocumento;
 import com.hortifood.demo.entity.entregador.Entregador.Entregador;
 import com.hortifood.demo.entity.entregador.Entregador.EnderecoEntregadorEntity;
+import com.hortifood.demo.entity.entregador.Entregador.TipoVeiculo;
 import com.hortifood.demo.repository.entregadorrepository.EntregadorDocumentoRepository;
 import com.hortifood.demo.repository.entregadorrepository.EntregadorEnderecoRepository;
 import com.hortifood.demo.repository.entregadorrepository.EntregadorRepository;
@@ -35,7 +36,7 @@ public class EntregadorService {
     @Autowired
     private EntregadorDocumentoRepository entregadorDocumentoRepository;
 
-    public Entregador criarEntregadorParcial(String nome, String cpf, String senha, String email, LocalDate nascimento) {
+    public Entregador criarEntregadorParcial(String nome, String cpf, String senha, String email, LocalDate nascimento, TipoVeiculo tipoVeiculo) {
         Entregador entregador = new Entregador();
 
         entregador.setNomeEntregador(nome);
@@ -43,6 +44,7 @@ public class EntregadorService {
         entregador.setSenhaEntregador(senha);
         entregador.setEmail(email);
         entregador.setDataNascimento(nascimento);
+        entregador.setTipoVeiculo(tipoVeiculo);
 
         entregador.setStatus(1);
         entregador.setTotalEntregas(0);
@@ -78,10 +80,11 @@ public class EntregadorService {
         return endereco;
     }
 
-    public EntregadorDocumentosEntity criarDoc(TipoDocumento tipoDocumento, LocalDate data) {
+    public EntregadorDocumentosEntity criarDoc(TipoDocumento tipoDocumento, LocalDate data, String validacao) {
         EntregadorDocumentosEntity entregadorDocumentosEntity = new EntregadorDocumentosEntity();
         entregadorDocumentosEntity.setTipoDocumento(tipoDocumento);
         entregadorDocumentosEntity.setDataEnvio(data);
+        entregadorDocumentosEntity.setStatusValidacao(validacao);
 
         return entregadorDocumentosEntity;
     }

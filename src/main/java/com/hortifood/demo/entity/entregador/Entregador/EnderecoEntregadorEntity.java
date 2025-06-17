@@ -17,7 +17,7 @@ public class EnderecoEntregadorEntity {
     private String casa;
     private String cep;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "idEntregador", nullable = false)
     private Entregador entregador;
 

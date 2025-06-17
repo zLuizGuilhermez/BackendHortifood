@@ -33,7 +33,7 @@ public class LojaService {
     private String secretKey;
 
 
-    public Loja criarLoja(String nome, String telefone, String email, String senha, String cnpj, LocalTime horarioAbertura, LocalTime horarioFechamento) {
+    public Loja criarLoja(String nome, String telefone, String descricao, String email, String senha, String cnpj, LocalTime horarioAbertura, LocalTime horarioFechamento) {
         Loja loja = new Loja();
 
         loja.setNomeLoja(nome);
@@ -42,7 +42,7 @@ public class LojaService {
         loja.setHorarioAbertura(horarioAbertura);
         loja.setHorarioFechamento(horarioFechamento);
         loja.setCnpjLoja(cnpj);
-        loja.setDescricaoLoja("");
+        loja.setDescricaoLoja(descricao);
         loja.setAtivo(true);
         loja.setSenhaLoja(senha);
 

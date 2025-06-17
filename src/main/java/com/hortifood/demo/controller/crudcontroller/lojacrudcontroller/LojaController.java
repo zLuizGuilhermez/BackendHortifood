@@ -40,7 +40,7 @@ public class LojaController {
     @PostMapping("/criarLoja")
     public ResponseEntity<?> criarLoja(@RequestBody LojaDTO lojaDTO) {
         try{
-            lojaService.criarLojaCompleta(lojaService.criarLoja(lojaDTO.getNomeLoja(), lojaDTO.getTelefoneLoja(), lojaDTO.getEmailLoja(), lojaDTO.getSenhaLoja(), lojaDTO.getCnpjLoja(), lojaDTO.getHorarioAbertura(), lojaDTO.getHorarioFechamento()), lojaService.criarEnderecoLoja(lojaDTO.getCep(),
+            lojaService.criarLojaCompleta(lojaService.criarLoja(lojaDTO.getNomeLoja(), lojaDTO.getTelefoneLoja(), lojaDTO.getDescricaoLoja(), lojaDTO.getEmailLoja(), lojaDTO.getSenhaLoja(), lojaDTO.getCnpjLoja(), lojaDTO.getHorarioAbertura(), lojaDTO.getHorarioFechamento()), lojaService.criarEnderecoLoja(lojaDTO.getCep(),
                     lojaDTO.getRua(), lojaDTO.getNumero(), lojaDTO.getComplemento(), lojaDTO.getBairro(), lojaDTO.getCidade(), lojaDTO.getEstado()), lojaService.criarCardapio(lojaDTO.getData_distribuicao()));
             return ResponseEntity.ok(true);
         } catch (Exception e){
