@@ -49,6 +49,8 @@ public class SecurityConfig {
                     "/api/lojacontroller/acharLoja",
                     "/api/lojaAuthcontroller/validarCampoLoja",
                     "/api/lojaAuthcontroller/validarLoginLoja",
+                    "/api/entregadorAuthcontroller/validarLoginEntregador",
+                    "/api/entregadorAuthcontroller/validarCamposEntregador",
                     "/api/entregadorcontroller/criarentregador",
                     "/api/entregadorcontroller/deletarentregador",
                     "/api/entregadorcontroller/buscarentregador",
