@@ -20,7 +20,7 @@ public class EntregadorDocumentosEntity {
         private String statusValidacao;
 
         @ManyToOne
-        @JoinColumn(name = "idEntregador")
+        @JoinColumn(name = "entregador_id")
         @JsonBackReference
         private Entregador entregador;
 

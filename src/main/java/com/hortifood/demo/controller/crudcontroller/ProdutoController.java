@@ -35,10 +35,10 @@ public class ProdutoController {
         produtoService.removerProduto(produtoDTO.getId());
     }
 
-    @Operation(summary = "Buscar produto", description = "Busca um produto pelo nome.")
-    @GetMapping("/buscarproduto")
-    public Produto buscarProduto(@RequestBody ProdutoDTO produtoDTO){
-        return produtoService.buscarProdutoPorNome(produtoDTO.getNome());
+    @Operation(summary = "Buscar produto", description = "Buscar um produto por id.")
+    @GetMapping("/buscarproduto/{id}")
+    public Produto buscarProduto(@PathVariable Long id){
+        return produtoService.buscarProdutoPorId(id);
     }
 
 }

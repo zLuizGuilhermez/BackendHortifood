@@ -38,14 +38,9 @@ public class ProdutoService {
         }
     }
 
-    public Produto buscarProdutoPorNome(String nome){
-        Optional<Produto> produto = produtoRepository.findFirstByNome(nome);
-        if(produto.isPresent()) {
-            Produto produto1 = produto.get();
-
-            return produto1;
-        }
-        return null;
+    public Produto buscarProdutoPorId(Long id) {
+        return produtoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
     }
 
     public void removerProduto(Long id){

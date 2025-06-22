@@ -58,7 +58,7 @@ public class LojaController {
     @Operation(summary = "Alterar loja", description = "Altera os dados da loja do usuário autenticado.")
     @PutMapping("/alterarLoja")
     void alterarLoja(@RequestBody LojaDTO lojaDTO, @AuthenticationPrincipal UserDetails userDetails) {
-        lojaService.atualizarLoja(lojaDTO, ((CustomUserDetails) userDetails).getId());
+        lojaService.atualizarLoja(lojaDTO, ((CustomUserDetails) userDetails).getId(), ((CustomUserDetails) userDetails).getId());
     }
 
     @Operation(summary = "Adicionar item ao cardápio", description = "Adiciona um produto ao cardápio da loja.")

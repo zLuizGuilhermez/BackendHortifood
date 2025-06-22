@@ -63,15 +63,17 @@ public class LojaService {
         lojaRepository.deleteById(idLoja);
     }
 
-    public Loja atualizarLoja(LojaDTO dto, Long idLoja) {
+    public Loja atualizarLoja(LojaDTO dto, Long idLoja, Long idEndereco) {
 
         Optional<Loja> lojaOpt = lojaRepository.findById(idLoja);
+        Optional<EnderecoLoja> enderecoLojaOpt = enderecoLojaRepository.findById(idEndereco);
 
         if (lojaOpt.isEmpty()) {
             throw new RuntimeException("Loja não encontrada.");
         }
 
         Loja loja = lojaOpt.get();
+        EnderecoLoja enderecoLoja = enderecoLojaOpt.get();
         if (dto.getNomeLoja()       != null) loja.setNomeLoja(dto.getNomeLoja());
         if (dto.getTelefoneLoja()   != null) loja.setTelefoneLoja(dto.getTelefoneLoja());
         if (dto.getEmailLoja()      != null) loja.setEmailLoja(dto.getEmailLoja());
@@ -81,6 +83,13 @@ public class LojaService {
         if (dto.getAtivo()          != null) loja.setAtivo(dto.getAtivo());
         if (dto.getHorarioAbertura()!= null) loja.setHorarioAbertura(dto.getHorarioAbertura());
         if (dto.getHorarioFechamento()!= null) loja.setHorarioFechamento(dto.getHorarioFechamento());
+        if (dto.getCidade()!= null) enderecoLoja.setCidade(dto.getCidade());
+        if (dto.getBairro()!= null) enderecoLoja.setBairro(dto.getBairro());
+        if (dto.getCep()!= null) enderecoLoja.setCep(dto.getCep());
+        if (dto.getEstado()!= null) enderecoLoja.setEstado(dto.getEstado());
+        if (dto.getNumero()!= null) enderecoLoja.setNumero(dto.getNumero());
+        if (dto.getRua()!= null) enderecoLoja.setRua(dto.getRua());
+        if (dto.getComplemento()!= null) enderecoLoja.setComplemento(dto.getComplemento());
 
         return lojaRepository.save(loja);
     }

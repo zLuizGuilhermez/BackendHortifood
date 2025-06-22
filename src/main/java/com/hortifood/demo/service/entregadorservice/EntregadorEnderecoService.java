@@ -26,7 +26,9 @@ public class EntregadorEnderecoService {
     }
 
     public EnderecoEntregadorEntity atualizarEnderecoPorIdEEntregador(Long enderecoId, Long entregadorId, EntregadorEnderecoDTO enderecoDTO) {
+        Optional<Entregador> entregadorOpt = entregadorRepository.findById(entregadorId);
         EnderecoEntregadorEntity endereco = buscarEnderecoPorIdEEntregador(enderecoId, entregadorId);
+        endereco.setEntregador(entregadorOpt.get());
         endereco.setEstado(enderecoDTO.getEstado());
         endereco.setCidade(enderecoDTO.getCidade());
         endereco.setBairro(enderecoDTO.getBairro());
@@ -44,7 +46,7 @@ public class EntregadorEnderecoService {
     public EnderecoEntregadorEntity listarEnderecosPorEntregador(Long entregadorId) {
         Optional<Entregador>  teste = entregadorRepository.findFirstByIdEntregador(entregadorId);
         if (teste.isPresent()) {
-            return teste.get().getEnderecoEntregadorEntity();
+            return teste.get().getEndereco();
         }else{
             throw new RuntimeException("Entregador não encontrado");
         }

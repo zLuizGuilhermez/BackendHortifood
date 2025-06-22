@@ -22,9 +22,7 @@ public class ClienteEnderecoService {
     private ClienteEnderecoRepository clienteEnderecoRepository;
 
     public ClienteEndereco criarEnderecoParaCliente(Long clienteId, ClienteEnderecoDTO enderecoDTO) {
-        Optional<Cliente> clienteOpt = clienteRepository.findFirstById(clienteId);
         ClienteEndereco endereco = new ClienteEndereco();
-        endereco.setCliente(clienteOpt.get());
         endereco.setBairro(enderecoDTO.getBairro());
         endereco.setCep(enderecoDTO.getCep());
         endereco.setCidade(enderecoDTO.getCidade());

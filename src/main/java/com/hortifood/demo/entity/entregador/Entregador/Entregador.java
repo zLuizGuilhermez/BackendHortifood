@@ -29,9 +29,9 @@ public class Entregador {
     private TipoVeiculo tipoVeiculo;
     private long totalEntregas;
 
-    @OneToOne
-    @JoinColumn(name = "entregador_endereco_id")
-    private EnderecoEntregadorEntity enderecoEntregadorEntity;
+    @OneToOne(mappedBy = "entregador", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private EnderecoEntregadorEntity endereco;
 
     @OneToMany(mappedBy = "entregador",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
@@ -48,17 +48,18 @@ public class Entregador {
         this.documentos = documentos;
     }
 
-    public EnderecoEntregadorEntity getEnderecoEntregadorEntity() {
-        return enderecoEntregadorEntity;
+    public EnderecoEntregadorEntity getEndereco() {
+        return endereco;
     }
 
-    public void setEnderecoEntregadorEntity(EnderecoEntregadorEntity enderecoEntregadorEntity) {
-        this.enderecoEntregadorEntity = enderecoEntregadorEntity;
+    public void setEndereco(EnderecoEntregadorEntity endereco) {
+        this.endereco = endereco;
     }
 
     public String getSenhaEntregador() {
         return senhaEntregador;
     }
+
     public void setSenhaEntregador(String senhaEntregador) {
         this.senhaEntregador = senhaEntregador;
     }

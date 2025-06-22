@@ -1,4 +1,6 @@
 package com.hortifood.demo.entity.entregador.Entregador;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hortifood.demo.entity.cliente.Cliente;
 import jakarta.persistence.*;
 
@@ -17,8 +19,9 @@ public class EnderecoEntregadorEntity {
     private String casa;
     private String cep;
 
-    @ManyToOne
-    @JoinColumn(name = "idEntregador", nullable = false)
+    @OneToOne
+    @JoinColumn(name = "entregador_id", nullable = false)
+    @JsonBackReference
     private Entregador entregador;
 
     public EnderecoEntregadorEntity() {

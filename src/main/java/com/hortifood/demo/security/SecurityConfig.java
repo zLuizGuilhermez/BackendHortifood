@@ -54,7 +54,14 @@ public class SecurityConfig {
                     "/api/entregadorcontroller/criarentregador",
                     "/api/entregadorcontroller/deletarentregador",
                     "/api/entregadorcontroller/buscarentregador",
-                    "/api/entregadorcontroller/alterarentregador"
+                    "/api/entregadorcontroller/alterarentregador",
+                    "/api/entregadorendereco/atualizar/{id}",
+                    "/api/entregadorendereco/deletar/{id}",
+                    "/api/entregadorendereco/{id}",
+                    "/api/produtocontroller/criarproduto",
+                    "/api/produtocontroller/editarproduto",
+                    "/api/produtocontroller/removerproduto",
+                    "/api/produtocontroller/buscarproduto/{id}"
                 ).permitAll()
                 .anyRequest().authenticated()
             )
