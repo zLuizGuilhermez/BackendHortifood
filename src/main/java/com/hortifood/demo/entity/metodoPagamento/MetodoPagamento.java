@@ -1,5 +1,6 @@
 package com.hortifood.demo.entity.metodoPagamento;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.hortifood.demo.entity.cliente.Cliente;
 import jakarta.persistence.*;
 
@@ -19,6 +20,7 @@ public class MetodoPagamento {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id", nullable = false)
+    @JsonBackReference
     private Cliente cliente;
 
     public MetodoPagamento() {

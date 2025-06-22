@@ -1,5 +1,6 @@
 package com.hortifood.demo.entity.cliente;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.hortifood.demo.entity.metodoPagamento.MetodoPagamento;
 import jakarta.persistence.*;
 
@@ -20,6 +21,7 @@ public class Cliente {
     private String senhaCliente;
 
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<MetodoPagamento> metodoPagamentos;
 
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

@@ -2,11 +2,13 @@ package com.hortifood.demo.controller.crudcontroller;
 
 import com.hortifood.demo.dto.Inside.ProdutoDTO;
 import com.hortifood.demo.entity.Produto.Produto;
+import com.hortifood.demo.repository.lojarepository.ProdutoRepository;
 import com.hortifood.demo.service.ProdutoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @Tag(name = "Produto", description = "Operações relacionadas a produtos")
 @RestController
@@ -16,6 +18,9 @@ public class ProdutoController {
 
     @Autowired
     ProdutoService produtoService;
+
+    @Autowired
+    ProdutoRepository produtoRepository;
 
     @Operation(summary = "Criar produto", description = "Cria um novo produto.")
     @PostMapping("/criarproduto")
@@ -41,4 +46,8 @@ public class ProdutoController {
         return produtoService.buscarProdutoPorId(id);
     }
 
+    @GetMapping("/listarTodosProdutos")
+    public List<Produto> listarTodosProdutos(){
+        return produtoRepository.findAll();
+    }
 }

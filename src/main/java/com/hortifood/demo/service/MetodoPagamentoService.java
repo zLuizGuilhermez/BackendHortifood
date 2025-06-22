@@ -51,7 +51,7 @@ public class MetodoPagamentoService {
         return true;
     }
 
-    public List<MetodoPagamento> buscarMetodosPagamentoPorClienteId(long clienteId) {
+    public List<MetodoPagamento> buscarMetodosPagamentoPorClienteId(Long clienteId) {
         Optional<Cliente> cliente = clientRepository.findFirstById(clienteId);
         if (cliente.isPresent()) {
             return cliente.get().getMetodoPagamentos();
@@ -59,5 +59,6 @@ public class MetodoPagamentoService {
             throw new RuntimeException("Cliente não encontrado.");
         }
     }
+
 }
 

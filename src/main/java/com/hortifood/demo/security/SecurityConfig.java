@@ -61,7 +61,12 @@ public class SecurityConfig {
                     "/api/produtocontroller/criarproduto",
                     "/api/produtocontroller/editarproduto",
                     "/api/produtocontroller/removerproduto",
-                    "/api/produtocontroller/buscarproduto/{id}"
+                    "/api/produtocontroller/buscarproduto/{id}",
+                    "/api/produtocontroller/listarTodosProdutos",
+                    "/api/lojacontroller/listarTodos",
+                    "/api/metodopagamento/criarmetodopagamento",
+                    "/api/metodopagamento/removermetodopagamento",
+                    "/api/metodopagamento/buscarmetodopagamento/{id}"
                 ).permitAll()
                 .anyRequest().authenticated()
             )

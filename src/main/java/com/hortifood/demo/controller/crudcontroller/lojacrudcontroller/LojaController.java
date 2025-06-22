@@ -3,6 +3,7 @@ package com.hortifood.demo.controller.crudcontroller.lojacrudcontroller;
 import com.hortifood.demo.dto.Inside.LojaDTO;
 import com.hortifood.demo.dto.Inside.ProdutoDTO;
 import com.hortifood.demo.entity.loja.Loja;
+import com.hortifood.demo.repository.lojarepository.LojaRepository;
 import com.hortifood.demo.security.CustomUserDetails;
 import com.hortifood.demo.service.LojaService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -13,6 +14,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Tag(name = "Loja", description = "Operações relacionadas à loja")
 @RestController
 @RequestMapping("/api/lojacontroller")
@@ -21,6 +24,9 @@ public class LojaController {
 
     @Autowired
     LojaService lojaService;
+
+    @Autowired
+    LojaRepository lojaRepository;
 
     @Operation(summary = "Buscar loja do usuário", description = "Busca a loja associada ao usuário autenticado.")
     @GetMapping("/acharLoja")
@@ -66,5 +72,10 @@ public class LojaController {
     public boolean adicionarItemCardapio(@PathVariable Long lojaId, @RequestBody ProdutoDTO produtoDTO) {
         lojaService.adicionarItemNoCardapio(lojaId, produtoDTO);
         return true;
+    }
+
+    @GetMapping("/listarTodos")
+    public List<Loja> listarTodos(){
+        return lojaRepository.findAll();
     }
 }

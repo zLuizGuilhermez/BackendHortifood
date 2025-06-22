@@ -1,6 +1,5 @@
 package com.hortifood.demo.repository.clienterepository;
 
-import com.hortifood.demo.entity.cliente.Cliente;
 import com.hortifood.demo.entity.metodoPagamento.MetodoPagamento;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
